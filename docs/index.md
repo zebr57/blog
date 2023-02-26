@@ -29,4 +29,5 @@ features:
       light: /light-feature-icon.svg
     title: 大杂烩
     details: Git、vscode-config
+    link: http://localhost:5173/other/vitepress.html
 ---
