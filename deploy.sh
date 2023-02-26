@@ -9,7 +9,7 @@ cd docs/.vitepress/dist
 git init 
 git add -A 
 git commit -m "gitee actions 自动部署"
-git push -f https://gitee.com/shen-linqiang/blog-vitepress.git master
+git push -f https://gitee.com/shen-linqiang/blog-vitepress.git master:dist
 
 cd -
-rm-rf docs/.vitepress/dist
+rm -rf docs/.vitepress/dist
