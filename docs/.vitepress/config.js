@@ -1,6 +1,7 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
+  base: '',
   lastUpdated: true,
   themeConfig: {
     // 顶部左侧 站名
@@ -25,15 +26,23 @@ export default defineConfig({
     // 侧边菜单
     sidebar: [
       {
-        text: "前端",
-        items: [{ text: "js", link: "http://localhost:5173/front/js/test" }],
+        text: "JavaScript",
+        items: [
+          { text: "JavaScript的一些操作", link: "/js_operate.html" },
+        ],
         collapsible: true,
         collapsed: true,
       },
       {
-        text: "大杂烩",
+        text: "Vue",
+        items: [{ text: "Vue的一些操作", link: "/vue.html" }],
+        collapsible: true,
+        collapsed: true,
+      },
+      {
+        text: "Git",
         items: [
-          { text: "搭建过程", link: "http://localhost:5173/other/vitepress" },
+          { text: "Git follow", link: "/git_follow.html" },
         ],
         collapsible: true,
         collapsed: true,

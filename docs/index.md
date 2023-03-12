@@ -19,7 +19,7 @@ features:
   - icon: 🛠️
     title: 前端
     details: Javacscript、TypeScript、Vue、ElementUI、Echarts...
-    link: http://localhost:5173/front/js/test.html
+    link: /js_operate.html
 
   - icon: 🪓
     title: 后端
@@ -29,5 +29,5 @@ features:
       light: /light-feature-icon.svg
     title: 大杂烩
     details: Git、vscode-config
-    link: http://localhost:5173/other/vitepress.html
+    link: /vitepress.html
 ---

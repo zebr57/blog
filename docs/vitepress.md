@@ -3,7 +3,7 @@
 ## 创建项目
 
 - 视频：https://www.bilibili.com/video/BV1pY4y1J7zd/?spm_id_from=333.337.search-card.all.click
-- 文档：https://vitepress.vuejs.org/guide/getting-started
+- 文档：https://vitejs.cn/vitepress/
 - 掘金：https://juejin.cn/post/7164276166084263972
 
 ## 部署前提
@@ -73,14 +73,14 @@ export default defineConfig({
     sidebar: [
       {
         text: "前端",
-        items: [{ text: "js", link: "http://localhost:5173/front/js/test" }],
+        items: [{ text: "js", link: "/front/js/test" }],
         collapsible: true,
         collapsed: true,
       },
       {
         text: "大杂烩",
         items: [
-          { text: "搭建过程", link: "http://localhost:5173/other/vitepress" },
+          { text: "搭建过程", link: "/other/vitepress" },
         ],
         collapsible: true,
         collapsed: true,
