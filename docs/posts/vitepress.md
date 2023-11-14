@@ -150,23 +150,23 @@ export default defineConfig({
 1. 创建仓库: https://gitee.com/projects/new
 2. 注册 gitee 账号，开通 git pages 上传身份证审核
 3. 项目根目录下创建 deploy.sh 文件
-
 ```shell
-  #!/usr/bin/env sh
+#!/usr/bin/env sh
 
-  set -e
+set -e
+# 打包
+npm run docs:build
+# 进入打包后的dist目录
+cd docs/.vitepress/dist
+#推送至dist分支
+git init
+git add -A
+git commit -m "gitee actions 自动部署"
+git push -f https://gitee.com/shen-linqiang/blog-vitepress.git  master:dist
 
-  npm run docs:build
-
-  cd docs/.vitepress/dist
-
-  git init
-  git add -A
-  git commit -m "gitee actions 自动部署"
-  git push -f https://gitee.com/shen-linqiang/blog-vitepress.git master
-
-  cd -
-  rm -rf docs/.vitepress/dist
+# 删除本地刚打包的dist目录
+cd -
+rm -rf docs/.vitepress/dist
 
 ```
 
@@ -193,6 +193,18 @@ export default defineConfig({
   git branch -M 默认分支名  (移动分支 重命名)
   #next
   git init
+```
+2. 部署后样式错乱问题
+- 由于部署后地址为https://shen-linqiang.gitee.io/blog-vitepress/
+- 修改theme/config.mjs中基础路径即可
+```js
+import { defineConfig } from "vitepress";
+
+export default defineConfig({
+  base: "", //[!code --]
+  base: "/blog-vitepress/", //[!code ++]
+  ....
+})
 ```
 #### 参考
 

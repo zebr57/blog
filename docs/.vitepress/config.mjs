@@ -1,7 +1,7 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  base: "",
+  base: "/blog-vitepress/",
   lastUpdated: true,
   themeConfig: {
     // 顶部左侧 站名
