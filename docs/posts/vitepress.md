@@ -2,9 +2,148 @@
 
 ## 创建项目
 
-- 视频：https://www.bilibili.com/video/BV1pY4y1J7zd/?spm_id_from=333.337.search-card.all.click
-- 文档：https://vitejs.cn/vitepress/
-- 掘金：https://juejin.cn/post/7164276166084263972
+#### 安装 vitepress
+
+::: code-group
+
+```shell [npm]
+npm add -D vitepress
+```
+
+```shell [pnpm]
+pnpm add -D vitepress
+```
+
+```shell [yarn]
+yarn add -D vitepress
+```
+
+```shell [bun]
+bun add -D vitepress
+```
+
+:::
+
+#### 初始化项目
+
+::: code-group
+
+```shell [npm]
+npx vitepress init
+```
+
+```shell [pnpm]
+pnpm dlx vitepress init
+```
+
+```shell [bunx]
+bunx vitepress init
+```
+
+:::
+
+```shell
+┌  Welcome to VitePress!
+│
+◇  Where should VitePress initialize the config?
+│  ./ (./表示根目录  ./docs表示在新建docs文件夹)
+│
+◇  Site title:
+│  My Awesome Project
+│
+◇  Site description:
+│  A VitePress Site
+│
+◆  Theme:
+│  ○ Default Theme (Out of the box, good-looking docs) （默认）
+│  ● Default Theme + Customization (多生成一个.vitepress/theme文件夹)
+│  ○ Custom Theme (全自定义)
+└
+```
+
+#### 初始目录
+
+```js
+.
+├─ .vitepress
+│  ├ theme
+│  ├ ├─ index.js
+│  ├ └─ style.css
+│  └─ config.mjs
+├─ index.md
+├─ api-examples.md // [!code --]
+├─ markdown-examples.md // [!code --]
+├─ deploy.sh // [!code ++]
+└─ package.json
+```
+
+#### 配置修改
+
+```js:line-numbers
+import { defineConfig } from "vitepress";
+
+export default defineConfig({
+  base: "",
+  lastUpdated: true,
+  themeConfig: {
+    // 顶部左侧 站名
+    siteTitle: "LinQiang·Shen",
+    logo: "/logo.svg",
+    // 顶部右侧 导航栏
+    nav: [
+      {
+        text: "博客",
+        link: "/posts/", // /xxxx后加/表示文件夹
+      },
+      {
+        text: "前端",
+        items: [
+          { text: "vue", link: "/frontend/vue/" },
+          { text: "react", link: "/frontend/react/" },
+        ],
+      },
+    ],
+    // 顶部右侧 社交icon
+    socialLinks: [{ icon: "github", link: "https://github.com" }],
+    // 侧边菜单 统一展示[]，根据url路径匹配使用字典{}
+    sidebar: {
+      "/frontend/": [
+        {
+          text: "Vue",
+          items: [{ text: "What is Vue?", link: "/frontend/vue/" }],
+          collapsible: true,
+          collapsed: true,
+        },
+        {
+          text: "react",
+          items: [{ text: "What is React?", link: "/frontend/react/" }],
+          collapsible: true,
+          collapsed: true,
+        },
+      ],
+    },
+
+    // 底部文档
+    docFooter: { prev: "上一篇", next: "下一篇" },
+    // 在Github编辑
+    editLink: {
+      pattern: "https://github.com/vuejs/vitepress/edit/main/docs/:path",
+      text: "Edit this page on GitHub",
+    },
+    // 最后更新时间
+    lastUpdatedText: "最近更新时间",
+    // 页脚 仅在siderbar不存在时显示
+    footer: {
+      message: "Released under the MIT License.",
+      copyright: "Copyright © 2023-present LinQiang Shen",
+    },
+  },
+  // md全局配置
+  markdown: {
+    lineNumbers: true, // 开启显示行数
+  },
+});
+```
 
 ## 部署前提
 
@@ -42,68 +181,6 @@
   }
 ```
 
-## 创建配置文件 .vitepress/config.js， 可自定义配置页面
-
-```js
-import { defineConfig } from "vitepress";
-
-export default defineConfig({
-  lastUpdated: true,
-  themeConfig: {
-    // 顶部左侧 站名
-    siteTitle: "Yo, wellcome!!",
-    // 顶部右侧 导航栏
-    nav: [
-      {
-        text: "Guide",
-        link: "/guide",
-        activeMatch: "/guide/what-is-vitepress",
-      },
-      {
-        text: "下拉框选择",
-        items: [
-          { text: "options-1", link: "/" },
-          { text: "options-2", link: "https://www.baidu.com" },
-        ],
-      },
-    ],
-    // 顶部右侧 社交icon
-    socialLinks: [{ icon: "github", link: "https://github.com" }],
-    // 侧边菜单
-    sidebar: [
-      {
-        text: "前端",
-        items: [{ text: "js", link: "/front/js/test" }],
-        collapsible: true,
-        collapsed: true,
-      },
-      {
-        text: "大杂烩",
-        items: [
-          { text: "搭建过程", link: "/other/vitepress" },
-        ],
-        collapsible: true,
-        collapsed: true,
-      },
-    ],
-    // 底部文档
-    docFooter: { prev: "上一篇", next: "下一篇" },
-    // 在Github编辑
-    editLink: {
-      pattern: "https://github.com/vuejs/vitepress/edit/main/docs/:path",
-      text: "Edit this page on GitHub",
-    },
-    // 最后更新时间
-    lastUpdatedText: "最近更新时间",
-    // 页脚 仅在siderbar不存在时显示 
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2023-present LinQiang Shen'
-    }
-  },
-});
-```
-
 ## 过程中遇到的问题
 
 1. 本地 git 默认分支名是 main，远程为 master，导致代码推不上去
@@ -117,3 +194,10 @@ export default defineConfig({
   #next
   git init
 ```
+#### 参考
+
+- 官方文档：https://vitepress.dev/guide/getting-started
+- 中文文档：https://vitejs.cn/vitepress/
+- 掘金：https://juejin.cn/post/7164276166084263972
+- 视频：https://www.bilibili.com/video/BV1pY4y1J7zd/?spm_id_from=333.337.search-card.all.click
+- 视频：https://www.bilibili.com/video/BV1Fc411R7J1/?p=5&spm_id_from=pageDriver

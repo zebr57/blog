@@ -69,4 +69,7 @@ export default defineConfig({
       copyright: "Copyright © 2023-present LinQiang Shen",
     },
   },
+  markdown: {
+    lineNumbers: true,
+  },
 });
