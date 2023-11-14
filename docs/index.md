@@ -2,32 +2,24 @@
 layout: home
 
 hero:
-  name: LinQiang·Shen - Blog
-  text: 记录自己的菜只因行为
-  tagline: 欢迎指教...
-  image:
-    src: /logo.png
-    alt: VitePress
+  name: 学习记录📝
+  text: ""
+  tagline: 保持独立思考，不卑不亢，活成自己想要的样子。
+  # image:
+  #   src: /logo.svg
+  #   alt: VitePress
   actions:
     - theme: brand
-      text: Get Started
-      link: /guide/what-is-vitepress
+      text: 开始
+      link: /posts/index.md
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/vuejs/vitepress
+      text: 关于我
+      link: /me.md
 features:
-  - icon: 🛠️
-    title: 前端
-    details: Javacscript、TypeScript、Vue、ElementUI、Echarts...
-    link: /js_operate.html
-
-  - icon: 🪓
-    title: 后端
-    details: 这个不会
-  - icon:
-      dark: /dark-feature-icon.svg
-      light: /light-feature-icon.svg
-    title: 大杂烩
-    details: Git、vscode-config
-    link: /vitepress.html
+  - title: 📖 阅读
+    details: 多看多读
+  - title: 📝 写作
+    details: 思考总结
+  - title: 💻 编写
+    details: 多写多练
 ---
