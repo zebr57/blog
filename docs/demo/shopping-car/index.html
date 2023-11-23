@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>点单购物车</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body,
+    #container {
+      width: 100%;
+      height: 100vh;
+    }
+    .goods-list-container {
+      height: calc(100vh - 60px);
+    }
+    .btn-info {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      gap: 12px;
+    }
+    li {
+      text-align: right;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #eee;
+      padding: 12px;
+    }
+    .btn {
+    }
+    .footer-container {
+      box-sizing: border-box;
+      height: 60px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: aliceblue;
+      padding: 0px 12px;
+    }
+  </style>
+  <body>
+    <div class="page-container">
+      <div class="goods-list-container">
+        <ul class="goods-list"></ul>
+      </div>
+      <div class="footer-container">
+        <div>
+          <span class="total">总额：0元</span>
+          <span class="delivery-price">配送费：5元</span>
+        </div>
+        <div class="need-price">还差30元起送</div>
+      </div>
+    </div>
+    <script src="./data.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
