@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
+import Test1 from "./components/03-react事件绑定.js";
+
 // react 和 jsx 是相互独立的，本质是通过babel编译成一个createElement对象
 function App() {
   // 与新版本vue3组合式api相似
@@ -16,14 +18,14 @@ function App() {
     }
   }
   // 函数式本身就是个方法，返回dom对象
-  console.log(ClassHello);
-  console.log(<ClassHello></ClassHello>); // jsx中会识别并编译成Dom对象
+  // console.log(ClassHello);
+  // console.log(<ClassHello></ClassHello>); // jsx中会识别并编译成Dom对象
 
   return (
     <div className="App">
-      {[<FnHello></FnHello>, 1, 2]}
-      {/* <FnHello></FnHello> */}
+      <FnHello></FnHello>
       <ClassHello></ClassHello>
+      <Test1></Test1>
       <img src={logo} className="App-logo" alt="logo" />
     </div>
   );
