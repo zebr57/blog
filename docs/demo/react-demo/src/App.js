@@ -2,7 +2,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 // import Test04 from "./components/04-react响应式数据";
-import Test05 from "./components/05-react条件渲染和列表循环";
+// import Test05 from "./components/05-react条件渲染和列表循环";
+import Test06 from "./components/06-react表单绑定"
 
 // react 和 jsx 是相互独立的，本质是通过babel编译成一个createElement对象
 function App() {
@@ -26,7 +27,7 @@ function App() {
     <div className="App">
       {/* <FnHello></FnHello>
       <ClassHello></ClassHello> */}
-      <Test05></Test05>
+      <Test06></Test06>
       <img src={logo} className="App-logo" alt="logo" />
     </div>
   );
