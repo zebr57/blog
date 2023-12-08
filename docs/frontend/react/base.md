@@ -526,13 +526,142 @@ class Test05 extends PureComponent {
 ::: tip 总结
 
 1. 纯粹的 js 逻辑运算，灵活、自由度高，注意的点：避免操作原数据
-2. 不像vue有v-show、v-if、v-for指令，使用起来方便、但也受限制
+2. 不像 vue 有 v-show、v-if、v-for 指令，使用起来方便、但也受限制
 
 :::
 
 ## 06-表单绑定
 
+### 基本思路
+
+React 中很多思路都是按原生的操作去做的，表单绑定也是如此。
+
+原生表单获取表单输入值，可以通过监听`input`、`change`等事件，然后获取`e.target.value`
+
+如果要设置表单的值，通常设置`value`属性，如果是选择框则是`checked`属性
+
+### 受控组件与非受控组件
+
+1. 非受控组件： 数据单向绑定，使用者只能获取它的值，值只能表单自身去修改，也就就只做了监
+
+```js
+// ...
+class Test06 extends React.PureComponent {
+  state = {
+    inputValue: "",
+  };
+
+  render() {
+    return (
+      <div className="container">
+        {this.state.inputValue}
+        <input
+          onInput={(e) => {
+            this.setState({
+              inputValue: e.target.value,
+            });
+          }}
+        ></input>
+      </div>
+    );
+  }
+}
+//...
+```
+
+2. 受控组件：数据双向绑定，表单的值可以由使用者通过修改 state 数据，影响表单显示的值
+
+```js
+// ...
+class Test06 extends React.PureComponent {
+  state = {
+    inputValue: "",
+  };
+  handleChangeInputValue = () => {
+    this.setState({
+      inputValue: "王花花",
+    });
+  };
+  render() {
+    return (
+      <div className="container">
+        {this.state.inputValue}
+        <input
+          // 通过设置value实现双向绑定
+          value={this.state.inputValue}
+          // 通过监听input事件获取并保存value值
+          onInput={(e) => {
+            this.setState({
+              inputValue: e.target.value,
+            });
+          }}
+        ></input>
+        {/* 手动设置表单的值 */}
+        <button onClick={this.handleChangeInputValue}>改变输入框的值</button>
+      </div>
+    );
+  }
+}
+//...
+```
+
+#### 原生多选框实现双向绑定
+
+```js
+// ...
+class Test06 extends React.PureComponent {
+  state = {
+    inputValue: "",
+    checkList: [],
+  };
+  // 处理多选框
+  handleChangeChecked = (e) => {
+    let arr = [...this.state.checkList];
+    if (e.target.checked) {
+      arr.push(e.target.value);
+    } else {
+      arr.splice(arr.indexOf(e.target.value), 1);
+    }
+    this.setState({
+      checkList: arr,
+    });
+  };
+  render() {
+    return (
+      <div className="container">
+        <div>---------------------</div>
+        {this.state.checkList}
+        <div>---------------------</div>
+        {/* 设置每个选中获取的值（value），通过checked控制是否选中 */}
+        <input checked={this.state.checkList.includes("c1")} value="c1" type="checkbox" name="choose" onChange={this.handleChangeChecked} />
+        选项一
+        <input checked={this.state.checkList.includes("c2")} value="c2" type="checkbox" name="choose" onChange={this.handleChangeChecked} />
+        选项二
+        <input checked={this.state.checkList.includes("c3")} value="c3" type="checkbox" name="choose" onChange={this.handleChangeChecked} />
+        选项三
+      </div>
+    );
+  }
+}
+//...
+```
+
+::: tip 总结
+
+1. 获取：基本跟原生一样，通过监听 input、change 事件来获取 e.target.value 值
+2. 修改：通过设置 value 或 checked 来改变表单的值
+3. 输入框、单选操作多数绑定一个字符串或者布尔值，多选操作绑定数组，这两点实现方式有些许不一样。
+4. 单向绑定成为非受控组件
+5. 双向绑定称为受控组件
+   :::
+
 ## 07-Props 和组件间的传值、插槽
+
+props 是 react 的核心
+
+在 react 中，所有卸载组件上的属性和子节点都被规划为 props。
+
+所以 props 是 react 很多功能的根本。父子传值，插槽全都是基于 props，不像 vue 有事件监听、emit，专门的插槽这一类东西。
 
 ## 08-React 中的样式操作
 
