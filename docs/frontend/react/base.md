@@ -261,7 +261,8 @@ render() {
 
 `state` 中定义变量 -> 通过调佣 `setState`给入一个对象 -> `setState`将给入的对象和`state`对象进行浅合并 -> 统一触发更新
 
-关键点： 
+关键点：
+
 1. 只合并第一层，会将对应键值直接顶替
 2. 调用`setState`触发更新，直接修改`state`不会触发
 
@@ -427,6 +428,107 @@ class Test04 extends React.PureComponent {  // [!code ++]
    :::
 
 ## 05-条件渲染和列表循环
+
+### 条件渲染
+
+原则：
+
+1. react 渲染 undefined、null、空字符串、false、不会渲染任何内容
+2. 如果渲染一个 jsx 编写的 html 元素，就会渲染成页面上的内容
+
+只需运用逻辑运算，true 返回一个 html 元素结构；false 返回个空字符串就不会显示任何内容
+
+```js
+// ...
+class Test05 extends PureComponent {
+  state = {
+    isShow: true, // 定义一个控制显示隐藏变量
+  };
+  // 判断是/否显示div
+  fn1 = () => {
+    if (this.state.isShow) {
+      return <div>div</div>;
+    } else {
+      return "";
+    }
+  };
+  // 切换显示/隐藏
+  handleIsShow = () => {
+    this.setState({
+      isShow: !this.state.isShow,
+    });
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <div>条件渲染</div>
+        {this.fn1()}
+        {/* {this.state.isShow ? <div>显示</div> : ""} */}
+        <button onClick={this.handleIsShow}>{this.state.isShow ? "隐藏" : "显示"}</button>
+      </div>
+    );
+  }
+}
+// ...
+```
+
+### 列表循环
+
+原则
+
+1. 渲染一个数组会把数组里面的每一项单独取出渲染
+2. 那么我们编写一个里面存放的都是 html 结构的数组，就会渲染成页面上的列表
+
+通过循环原始数据，把原始数据生成为一个存放列表每一项元素的新数组，jsx 编译存着 html 结构的数组，在页面上渲染为列表
+
+```js
+// ...
+class Test05 extends PureComponent {
+  state = {
+    originArr: [1, 2, 3], // 转为[<div>1</div>, <div>2</div>, <div>3</div>]
+  };
+  // 处理新数组
+  getArr = () => {
+    // 工作中常用 map、filter来实现
+    let newArr = [];
+    this.state.originArr.forEach((item) => {
+      newArr.push(<div key={item}>{item}</div>);
+    });
+    return newArr;
+  };
+  // 添加数组数据
+  handleArrPush = () => {
+    let newArr = [...this.state.originArr];
+    const len = this.state.originArr.length + 1;
+    newArr.push(len);
+    this.setState({
+      originArr: newArr,
+    });
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <div>列表循环</div>
+        {/* {this.getArr()} */}
+        {this.state.originArr.map((item) => {
+          return <div key={item}>{item}</div>;
+        })}
+        <button onClick={this.handleArrPush}>添加数组数据</button>
+      </div>
+    );
+  }
+}
+// ...
+```
+
+::: tip 总结
+
+1. 纯粹的 js 逻辑运算，灵活、自由度高，注意的点：避免操作原数据
+2. 不像vue有v-show、v-if、v-for指令，使用起来方便、但也受限制
+
+:::
 
 ## 06-表单绑定
 
