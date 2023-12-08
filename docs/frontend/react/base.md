@@ -246,14 +246,185 @@ render() {
   </div>
 }
 ```
+
 ::: tip 总结
-1. jsx中单花括号{  }中接收一个方法fn，不能直接调用fn()
-2. this指向问题，默认undefined，通过箭头函数、.bind(this)可解决，推荐使用bind方便传参数
-3. 事件对象为最后一个参数，只不过这个事件对象是复合的，里面属性nativeXXX是原生
+
+1. jsx 中单花括号{ }中接收一个方法 fn，不能直接调用 fn()
+2. this 指向问题，默认 undefined，通过箭头函数、.bind(this)可解决，推荐使用 bind 方便传参数
+3. 事件对象为最后一个参数，只不过这个事件对象是复合的，里面属性 nativeXXX 是原生
 4. 复合的事件对象调用阻止默认行为：e.is+方法名，与原生:e.方法名有点不同
-:::
+   :::
 
 ## 04-React 的响应式数据
+
+### 流程
+
+`state` 中定义变量 -> 通过调佣 `setState`给入一个对象 -> `setState`将给入的对象和`state`对象进行浅合并 -> 统一触发更新
+
+关键点： 
+1. 只合并第一层，会将对应键值直接顶替
+2. 调用`setState`触发更新，直接修改`state`不会触发
+
+```js
+class Test04 extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     a: 1,
+  //   };
+  // }
+  // 忽略constructor，使用ES7写法
+  state = {
+    name: "王花花",
+    age: 18,
+    bodyInfo: {
+      height: 172,
+      weight: 60,
+    },
+    likes: ["游泳、", "跑步、", "篮球"],
+  };
+
+  add = () => {
+    // 1.修改值,单独触发更新
+    // this.state.a += 1;
+    // this.setState({});
+    //2. 修改值并触发跟新
+    this.setState({
+      age: this.state.age + 1,
+      bodyInfo: {
+        // 该对象将覆盖原来的值
+        height: this.state.bodyInfo.height + 1,
+        // weight: 60, // 注释该行，体重信息就不展示了
+      },
+    });
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <div>姓名： {this.state.name}</div>
+        <div>年龄：{this.state.age}</div>
+        <div>
+          身体状况：身高：{this.state.bodyInfo.height} | 体重： {this.state.bodyInfo.weight}
+        </div>
+        <button onClick={this.add}>年龄\身高加1</button>
+      </div>
+    );
+  }
+}
+```
+
+### setState 异步 or 同步
+
+setState 是异步的，想要同步得到修改后的结果，可以在第二个参数传入一个回调函数，在这个函数中获取
+
+```js
+// ...
+this.setState(
+  {
+    age: this.state.age + 1,
+    bodyInfo: {
+      // 该对象将覆盖原来的值
+      height: this.state.bodyInfo.height + 1,
+      // weight: 60, // 注释该行，体重信息就不展示了
+    },
+  },
+  () => {
+    // [!code ++]
+    console.log(this.state.age); // 19// [!code ++]
+  } // [!code ++]
+);
+console.log(this.state.age); // 18// [!code ++]
+// ...
+```
+
+### 关于多次调用 setState
+
+1. setState 多个修改，会合并为一次，再统一更新
+
+```js
+this.setState({
+  name: "李明花",
+});
+this.setState({
+  age: 20,
+});
+// 相当于
+this.setState({
+  name: "李明花",
+  age: 20,
+});
+```
+
+2. `setState`返回会触发更新`render()`，不管你有没有修改，这造成了一个问题，重复修改为相同的值也会让组件更新
+
+- 解决方案: 使用`React.PureComponent`
+
+```js
+class Test04 extends React.Component {  // [!code --]
+class Test04 extends React.PureComponent {  // [!code ++]
+  // ...
+  changeAge = () => {
+    this.setState({
+        age: 20
+    })
+  }
+  render() {
+    console.log('render') // 只在第一次渲染和第一次更新触发
+    return <div>
+      <button onClick={this.changeAge.bind(this)}>年龄改为20</button>
+    </div>
+  }
+}
+```
+
+- `PureComponent`判断数组和对象方式：内存地址引用是否发生改变
+
+```js
+// ...
+  // 修改对象
+  changeBodyInfo = () => {
+    this.setState({
+      bodyInfo: this.state.bodyInfo, // 不会触发更新 // [!code --]
+      bodyInfo: {...this.state.bodyInfo}, // 触发一次 // [!code ++]
+
+    });
+  }
+  // 修改数组
+  changeLikes = () => {
+    this.setState({
+      likes: this.state.likes, // 不会触发更新 // [!code --]
+      likes: [...this.state.likes], // [!code ++]
+    });
+  };
+  render() {
+    console.log('render')
+    return <div>
+       <div>
+          身体状况：身高：{this.state.bodyInfo.height} | 体重： {this.state.bodyInfo.weight}
+        </div>
+        <div>爱好： {this.state.likes}</div>
+      <button onClick={this.changeBodyInfo.bind(this)}>身体情况保持不变</button>
+      <button onClick={this.changeLikes.bind(this)}>爱好保持不变</button>
+    </div>
+  }
+
+// ...
+```
+
+3. 一定不要在 `render` 里直接 `setState`,否则死机。。
+
+::: tip 总结
+
+1. 在`state`中定义变量，通过`setState({})`触发页面更新
+2. `setState`可以做两件事，修改`state`里的值，触发`render()`
+3. 多次调用会先合并，再统一修改
+4. `setState()`为异步，想要拿到更新后的值，可以在第二个参数回调函数中获取
+5. 页面操作触发`setState`去改变的值结果都是不变的，也会造成重新 render 问题
+6. 使用`React.PureComponent`，假如`setState`的值结果没有发生改变，则不会触发更新
+7. `PureComponent`中判断值是否改变，是判断内存地址的引用，数组和对象必须赋予一个新的数组对象
+8. **避免操作原数据**，先拷贝一份，在拷贝数据上进行操作，之后再赋予
+   :::
 
 ## 05-条件渲染和列表循环
 
