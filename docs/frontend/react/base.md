@@ -657,11 +657,274 @@ class Test06 extends React.PureComponent {
 
 ## 07-Props 和组件间的传值、插槽
 
-props 是 react 的核心
+**props 是 react 的核心**
 
 在 react 中，所有卸载组件上的属性和子节点都被规划为 props。
 
-所以 props 是 react 很多功能的根本。父子传值，插槽全都是基于 props，不像 vue 有事件监听、emit，专门的插槽这一类东西。
+所以 props 是 react 很多功能的根本。父子传值，插槽全都是基于 props，不像 vue 定义 props 字段才作为 props，事件监听、emit，专门的插槽这一类东西。
+
+### 传值（父传子）
+
+- 获取：上级组件绑定属性`msg={}`，子级组件通过`this.props.msg`获取
+- 校验：组件.propTypes，设置字段并赋予一个函数，获取参数 props 自定义校验逻辑，也可引入 react 的 propTypes 类型校验
+- 默认值：组件.defaultProps，设置字段并赋予默认值
+  ::: code-group
+
+```js [Son.js]
+import React from "react";
+import propTypes from "prop-types";
+
+class Test07 extends React.PureComponent {
+  state = {
+    sonMsg: "this value from son",
+  };
+
+  render() {
+    // 通过 this.props获取字段值
+    return (
+      <div className="container">
+        <div> {this.props.msg}</div>
+        <div>{this.state.sonMsg}</div>I am son components.
+      </div>
+    );
+  }
+}
+// 类型校验
+Test07.propTypes = {
+  // msg: function (props) {
+  //   if (typeof props.msg !== "string") {
+  //     throw new Error("msg must be a string");
+  //   }
+  // },
+  msg: propTypes.string,
+};
+// 默认值
+Test07.defaultProps = {
+  msg: "I am default msg",
+};
+export default Test07;
+```
+
+```js [App.js]
+// ...
+import Test07 from "./components/07-props和组件间传值和插槽";
+
+function App() {
+
+  const state = {
+    msg: false
+  }
+
+  return (
+    <div className="App">
+      <Test07 msg={state.msg}></Test07>
+    </div>
+  );
+```
+
+:::
+
+### 插槽
+
+- 默认插槽
+- 具名插槽
+- 作用域插槽
+
+::: code-group
+
+```js [Son.js]
+import React from "react";
+
+class Test07 extends React.PureComponent {
+  state = {
+    scopeSlotValue: "scope slot",
+  };
+
+  render() {
+    // 通过 this.props获取字段值
+    return (
+      <div className="container">
+        {/* 默认插槽 */}
+        <div>{this.props.children}</div>
+        {/* 具名插槽 */}
+        <div>{this.props.slotA}</div>
+        {/* 作用域插槽 */}
+        <div>{this.props.scopeSlot(this.state.scopeSlotValue)}</div>
+      </div>
+    );
+  }
+}
+
+export default Test07;
+```
+
+```js [App.js]
+// ...
+import Test07 from "./components/07-props和组件间传值和插槽";
+
+function App() {
+
+  const state = {
+    msg: false
+  }
+
+  return (
+    <div className="App">
+      <Test07
+        msg={state.msg}
+        slotA={<div>slotA</div>}
+        scopeSlot={(scope) => {
+          return <div>{scope}</div>;
+        }}
+      >
+        <div>default slot</div>
+      </Test07>
+    </div>
+  );
+```
+
+:::
+
+### 传值（子传父）
+
+1. 父组件把方法传递给子组件
+2. 子组件调用传递过来的方法
+3. 调用时传递参数
+4. 父组件执行方法，进行操作，注意 this 指向问题
+
+::: code-group
+
+```js [App.js]
+// 这里使用Class组件演示，函数组件触发更新需要借助hook，后面学习到再用
+class AppClass extends React.Component {
+  state = {
+    msg: "this value from parent",
+  };
+  changeMsg(value) {
+    // console.log(this)
+    // 没有使用bind(this)改变或箭头函数的话，指向子组件中的props
+    this.setState({
+      msg: value,
+    });
+  }
+  render() {
+    return (
+      <div className="App">
+        {/* 传值给子组件 */}
+        <Test07
+          msg={this.state.msg}
+          /* 获取子组件传过来的值，通过子组件调用修改msg值 */ // [!code ++]
+          changeMsg={this.changeMsg.bind(this)} // [!code ++]
+        >
+          <div>default slot</div>
+        </Test07>
+      </div>
+    );
+  }
+}
+```
+
+```js [Son.js]
+//...
+class Test07 extends React.PureComponent {
+  state = {};
+  render() {
+    return (
+      <div className="container">
+        {this.props.msg}
+        {/* 调用父组件方法，给父组件传值 */}
+        <button
+          onClick={() => {
+            this.props.changeMsg("hello");
+          }}
+        >
+          给父组件传值
+        </button>
+      </div>
+    );
+  }
+}
+//...
+```
+
+:::
+
+### 兄弟组件传值
+
+1. 子 1 -> 父组件 -> 子 2
+
+::: code-group
+
+```js [AppClass.js]
+// ...
+import SonA from "./SonA";
+import SonB from "./SonB";
+
+class AppClass extends React.Component {
+  state = {
+    msg: "this value from parent",
+  };
+  getMsg = (value) => {
+    this.setState({
+      msg: value,
+    });
+  };
+  render() {
+    return (
+      <div className="App">
+        {/* 兄弟组件通过父组件传值 */}
+        <SonA getMsg={this.getMsg}></SonA>
+        <SonB sonAMsg={this.state.msg}></SonB>
+      </div>
+    );
+  }
+}
+//...
+```
+
+```js [SonA.js]
+class SonA extends React.PureComponent {
+  state = {
+    msg: "I am sonA",
+  };
+  render() {
+    return (
+      <div className="container">
+        SonA
+        {/* 点击调用父组件方法传递msg，父组件保存msg并通过props传给SonB */}
+        <button
+          onClick={() => {
+            this.props.getMsg(this.state.msg);
+          }}
+        >
+          点击给SonB传值
+        </button>
+      </div>
+    );
+  }
+}
+```
+
+```js [SonB.js]
+class SonB extends React.PureComponent {
+  render() {
+    return <div className="container">SonB：获取SonA的msg为“{this.props.sonAMsg}”</div>;
+  }
+}
+```
+
+:::
+
+2. eventBus（空）
+
+::: tip 总结
+
+- 统统通过 props 实现
+- 父传子要数据传数据，要插槽传 html 模版结构
+- 子传父通过传递函数，子组件调用并传递参数
+- 兄弟组件可通过父组件作为媒介进行传递 or 写个 eventBus
+
+:::
 
 ## 08-React 中的样式操作
 
@@ -684,3 +947,7 @@ props 是 react 的核心
 ## 17-react 中的路由权限控制
 
 ## 18-组件库等相关生态
+
+```
+
+```
