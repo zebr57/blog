@@ -1,18 +1,16 @@
-import "./App.css";
 import React from "react";
-import Test07 from "./components/07-props和组件间传值和插槽";
-import { SonA, SonB } from "./components/07-props和组件间传值和插槽";
+import Son from "./Son";
+import { SonA, SonB } from "./Son";
 
-class AppClass extends React.Component {
+class Test07 extends React.Component {
   state = {
     msg: "this value from parent",
-    sonAMsg: ''
+    sonAMsg: "",
   };
   changeMsg(value) {
     // console.log(this) 没有使用bind(this)改变或箭头函数的话，指向子组件中的props
     this.setState({
       msg: value,
-      
     });
   }
   getMsg = (value) => {
@@ -24,7 +22,7 @@ class AppClass extends React.Component {
     return (
       <div className="App">
         {/* 传值给子组件 */}
-        <Test07
+        <Son
           msg={this.state.msg}
           slotA={<div>slotA</div>}
           scopeSlot={(scope) => {
@@ -34,7 +32,7 @@ class AppClass extends React.Component {
           changeMsg={this.changeMsg.bind(this)}
         >
           <div>default slot</div>
-        </Test07>
+        </Son>
         {/* 兄弟组件通过父组件传值 */}
         <SonA getMsg={this.getMsg}></SonA>
         <SonB sonAMsg={this.state.sonAMsg}></SonB>
@@ -43,4 +41,4 @@ class AppClass extends React.Component {
   }
 }
 
-export default AppClass;
+export default Test07;
