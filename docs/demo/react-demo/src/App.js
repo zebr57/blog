@@ -7,6 +7,7 @@ import AppClass from "./AppClass";
 // import Test05 from "./components/05-react条件渲染和列表循环";
 // import Test06 from "./components/06-react表单绑定"
 import Test07 from "./components/07-props和组件间传值和插槽";
+import Test08 from "./components/08-react 中的样式操作/App";
 
 // react 和 jsx 是相互独立的，本质是通过babel编译成一个createElement对象
 function App() {
@@ -38,7 +39,8 @@ function App() {
         /* 使用Class组件演示 */
         <AppClass></AppClass>
       )}
-
+      <div className="father">App</div>
+      <Test08></Test08>
       <img src={logo} className="App-logo" alt="logo" />
     </div>
   );
