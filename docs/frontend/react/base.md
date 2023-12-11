@@ -668,7 +668,8 @@ class Test06 extends React.PureComponent {
 - 获取：上级组件绑定属性`msg={}`，子级组件通过`this.props.msg`获取
 - 校验：组件.propTypes，设置字段并赋予一个函数，获取参数 props 自定义校验逻辑，也可引入 react 的 propTypes 类型校验
 - 默认值：组件.defaultProps，设置字段并赋予默认值
-  ::: code-group
+
+::: code-group
 
 ```js [Son.js]
 import React from "react";
@@ -928,7 +929,140 @@ class SonB extends React.PureComponent {
 
 ## 08-React 中的样式操作
 
+- className 类名必须接收一个字符串
+- style 内联样式必须接收一个对象
+
+::: code-group
+<<< @/demo/react-demo/src/components/08-react 中的样式操作/App.js
+
+<<< @/demo/react-demo/src/components/08-react 中的样式操作/Son.js
+
+<<< @/demo/react-demo/src/components/08-react 中的样式操作/App.css
+
+<<< @/demo/react-demo/src/components/08-react 中的样式操作/Son.css
+
+:::
+
+### 针对组件内部生效的 css 样式
+
+- 使用 css 模块化
+
+::: code-group
+
+```js [Son.js]
+import React from "react";
+import "./Son.css"; // [!code --]
+import sonStyle from "./Son.module.css"; // [!code ++]
+console.log(sonStyle); // {son: 'Son_son__g33Pp', son1: 'Son_son1__e7hIv'}
+
+// vue <style scope>
+// react xxx.module.css
+
+class Son extends React.Component {
+  render() {
+    return (
+      <div>
+        <div className="son"> Son</div> // [!code --]
+        <div className={sonStyle.son}> Son</div>; // [!code ++]
+      </div>
+    );
+  }
+}
+export default Son;
+```
+
+```css [Son.module.css]
+.son {
+  background-color: pink;
+}
+.son1 {
+  background-color: green;
+}
+```
+
+:::
+
+### 优雅控制类名的添加减少
+
+- 使用 classnames 第三方库
+
+```shell
+npm install classnames
+```
+
+```js
+//..
+import "./Son.css";
+import classnames from "classnames/bind";
+
+let str = classnames({
+  son: true,
+  son1: true,
+});
+
+state = {
+  hasSon1: true,
+};
+
+class Son extends React.Component {
+  render() {
+    return (
+      <div>
+        <div
+          className={classnames({
+            son: true,
+            son1: this.state.hasSon1,
+          })}
+        >
+          Son
+        </div>
+        <button></button>
+      </div>
+    );
+  }
+}
+export default Son;
+```
+
+```js
+// 如果引入引入模块，要引入classnames中的bind文件夹
+import sonStyle from "./Son.module.css";
+import classnames from "classnames/bind";
+let bindClassnames = classnames.bind(sonStyle);
+```
+
+::: tip 总结
+
+1. className 接收字符串，style 接收对象
+2. 内部样式隔离使用 css 模块化实现
+3. 动态样式借助第三方库 classnames 优化写法
+   :::
+
 ## 09-生命周期
+
+### 三大部分（挂载、更新、卸载）、两大阶段（render、commit）
+
+<img src="./images/react%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png"/>
+
+### 重点钩子
+
+1. `render`, 通过 render 函数的执行来决定组件渲染的内容，所以无论更新还是初次挂载都会执行。
+2. `componentDidMount`，组件过载完成，一般用来做一些页面初始化操作，比如初始请求，echarts 绘制等，也就是 vue 的 mounted 里做的事一样。
+3. `shouldComponentUpdate`，更新阶段调用，如果 return false 则不会执行 render 函数继续更新，从而达到阻止更新的效果，一般用来做性能优化。
+4. `componentDidUpdate`，更新完成，等同于 vue 的 updated
+5. `componentWillUnmount`，组件卸载，通常做一些全局事件监听、计时器的卸载
+
+### 相比较 vue，react 更新方案
+
+- vue 是在 get 和 set 里触发更新，vue 在 get 中有一个重要的操作-**依赖收集**，这样我们在修改数据时，只会更新用到了这个数据的地方。做到最小的更新范围。
+- react 是通过调用 setState 触发的更新，并没有收集依赖，所以它是**整个组件树**更新，即使没用到数据的子组件也会一块更新。
+
+### 严格模式 <React.strictMode>
+
+严格模式只在开发模式下生效，生产上线时会去除，作用简要概括有两方面的作用：
+
+1. 检测一些危险操作，比如使用已经作废 api 和不推荐的 api
+2. 会把一些生命周期执行两次，来检测额外副作用，比如 render
 
 ## 10-实战编写增删改查列表
 
