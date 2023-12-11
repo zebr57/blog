@@ -1,0 +1,17 @@
+.cover{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.content{
+  width: 500px;
+  margin: 200px auto;
+  background-color: white;
+}
+.title{
+  padding: 30px;
+  border-bottom: 1px solid black;
+}
