@@ -1170,6 +1170,111 @@ render() {
 
 ## 12-函数组件和 Hook
 
+### 与 class 组件有什么区别
+
+1. 没有生命周期
+2. 没有 this
+3. 借助 Hook 完成各系列操作
+4. 函数组件本身相当于 render 函数
+5. props 在函数的第一个参数接收
+
+### state 的创建和更新
+
+通过 useState 定义，返回数组包含两项，第一项是值、第二项是修改值的方法
+
+```js
+const [value, setValue] = useState("hello");
+// 使用
+console.log(value);
+// 修改
+setValue("你好");
+```
+
+### useEffect 的使用
+
+- 可以充当 componentDidMount、watch 监听
+- 第一个参数为回调函数、第二参数只能是数组 -在数组中写入定义的 state 值，即可起到监听作用在
+- useEffect 监听某个数据时，一开始渲染会执行一次（didMount），这点不同于 vue
+- 引用内存地址改变时，监听才生效
+
+```js
+const [value, setValue] = useState("hello");
+
+useEffect(() => {
+  console.log("effect");
+}, [value]);
+```
+
+### useMemo
+
+让一段计算在开始执行一次，后续只有依赖的数据发生变化时才重新运算
+
+作用:
+
+1. 起类似于 vue 的一个计算属性的效果
+2. 缓存一个数据，让其不重新创建
+
+```js
+const [arr, setArr] = useState([1, 2, 3]);
+
+// 缓存，避免重新渲染时再次运行，起到优化作用
+// 第一个参数也是必传，第二参数为数组[监听的数据]，引用内存地址改变时，监听才生效
+const all = useMemo(() => {
+  console.log("useMemo");
+  let _all = 0;
+  arr.forEach((item) => {
+    _all += item;
+  });
+  return _all;
+}, [arr]);
+
+setArr([...arr]); // 重新运行useMemo的第一个参数回函函数
+```
+
+### useCallback
+
+### 函数组件深层嵌套
+
+::: code-group
+
+```js [App.js]
+export const context1 = React.createContext();
+//..
+{
+  /* 嵌套传值 */
+}
+<context1.Provider value="context value">
+  <Son></Son>
+</context1.Provider>;
+//..
+```
+
+```js [Son.js]
+import { useContext } from "react";
+import { context1 } from "./App"; // 引入
+
+function Son() {
+  let contextValue = useContext(context1); // 使用useContext接收并返回
+  return <div>Provider: {contextValue}</div>;
+}
+```
+
+:::
+
+::: tip 总结
+
+1. 使用 useState()返回一个 state 数据和修改对应 state 的方法
+2. useEffect 是指 state 更新时的副作用函数，可以充当 componentDidMount、vue-watch 作用
+3. useMemo 起到 vue-computed 作用，缓存-在某个数据更新时才执行回调函数
+4. useCallback 避免组件方法重新执行时再次创建方法
+5. useMemo、useCallback 都有优化性能作用
+6. useRef 获取真实 dom
+7. useContext(React.Provider()) 函数组件深层嵌套传值的使用方式，在父组件定义与 class 类组件的使用方式一样，只不过在子组件使用要借助 useContext(xxx)接收父组件暴露的值并返回 value
+
+:::
+
+- 由于组件更新，会重新运行组件方法，会重新创建里面的属性、方法，避免重新创建方法，至于为什么后续性能优化会讲解
+
 ## 13-高阶组件
 
 ## 14-React 性能和优化
