@@ -8,13 +8,14 @@ import React from "react";
 // import Test07 from "./components/07-props和组件间传值和插槽/App";
 // import Test08 from "./components/08-react 中的样式操作/App";
 // import Test09 from "./components/09-react生命周期";
-import Test10 from "./components/10-实战增删改查列表/App";
+// import Test10 from "./components/10-实战增删改查列表/App";
+import Test11 from "./components/11-ref 和 context/App";
 
 // react 和 jsx 是相互独立的，本质是通过babel编译成一个createElement对象
 function App() {
   return (
     <div className="App">
-      <Test10></Test10>
+      <Test11></Test11>
     </div>
   );
 }
