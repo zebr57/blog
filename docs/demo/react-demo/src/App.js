@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React from "react";
+import React, { useState } from "react";
 // import { FnHello, ClassHello } from "./components/02-react组件和jsx"
 // import Test04 from "./components/04-react响应式数据";
 // import Test05 from "./components/05-react条件渲染和列表循环";
@@ -9,13 +9,14 @@ import React from "react";
 // import Test08 from "./components/08-react 中的样式操作/App";
 // import Test09 from "./components/09-react生命周期";
 // import Test10 from "./components/10-实战增删改查列表/App";
-import Test11 from "./components/11-ref 和 context/App";
+// import Test11 from "./components/11-ref 和 context/App";
+import Test12 from "./components/12-函数式组件与Hook/App";
 
 // react 和 jsx 是相互独立的，本质是通过babel编译成一个createElement对象
 function App() {
   return (
     <div className="App">
-      <Test11></Test11>
+      <Test12></Test12>
     </div>
   );
 }
