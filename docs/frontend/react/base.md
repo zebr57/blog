@@ -1066,6 +1066,13 @@ let bindClassnames = classnames.bind(sonStyle);
 
 ## 10-实战编写增删改查列表
 
+::: code-group
+<<< @/demo/react-demo/src/components/10-实战增删改查列表/Model.js
+<<< @/demo/react-demo/src/components/10-实战增删改查列表/App.js
+<<< @/demo/react-demo/src/components/10-实战增删改查列表/App.css
+<<< @/demo/react-demo/src/components/10-实战增删改查列表/Model.module.css
+:::
+
 ## 11-ref 和 context
 
 ## 12-函数组件和 Hook
