@@ -1075,6 +1075,99 @@ let bindClassnames = classnames.bind(sonStyle);
 
 ## 11-ref 和 context
 
+### ref
+
+ref 用于获取真实 dom，和 vue 中的 ref 一样
+
+注意事项：
+
+1. ref 必须在挂载后获取，通常在 componentDidMount
+2. ref 获取组件，不能获取函数组件（获取函数组件不常见？需要获取怎么办？）
+
+```js [App.js]
+// ...
+const refSon = React.createRef();
+//..
+<Son ref="refSon"></Son>;
+//..
+```
+
+### context
+
+类似于 vue 的 provider 和 injected，用于嵌套多层的爷孙组件之间传值
+
+注意事项：
+
+1. 子组件使用父组件创建的 context 对象，不能自己创建
+2. 只能传递一个 value 值，需要传多个属性，传个对象即可
+
+::: code-group
+
+```js [App.js]
+/**
+ * React.createContext()
+ * 用于深层嵌套爷孙组件传值
+ * 创建导出，给子组件引入使用
+ */
+export const context1 = React.createContext();
+//..
+state = {
+  info: {
+    name: "王花花",
+    age: 18,
+  },
+};
+//..
+<context1.Provider value={this.state.info}>
+  <Son ref={refSon}></Son>
+</context1.Provider>;
+//..
+```
+
+```js [grandSon.js]
+// ..
+import { context1 } from "./App"; // 引入
+// ..
+
+render() {
+  return <>
+    {/* 使用 */}
+    <context1.Consumer>
+      {(value) => {
+        return (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div>{value.name}</div>
+            <div>{value.age}岁</div>
+          </div>
+        );
+      }}
+    </context1.Consumer>
+  </>
+}
+// ..
+
+```
+
+:::
+
+### Example
+
+::: code-group
+<<< @/demo/react-demo/src/components/11-ref 和 context/App.js
+<<< @/demo/react-demo/src/components/11-ref 和 context/Son.js
+<<< @/demo/react-demo/src/components/11-ref 和 context/GrandSon.js
+:::
+
+::: tip 总结
+
+1. 通过 React.createRef()，给子组件绑定对应 ref 值
+2. Provider 与 Vue 不同，是使用 React.createContext()创建的值，并设置导出
+
+- 创建：通过`<context.Provider value=data>`标签包裹、标签内绑定值形式传值，
+- 使用：孙组件引入导出的 React.createContext，通过`<context.Consumer>{(value) => {}}<context.Consumer>`
+
+:::
+
 ## 12-函数组件和 Hook
 
 ## 13-高阶组件
