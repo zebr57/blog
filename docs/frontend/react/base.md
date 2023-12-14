@@ -1267,7 +1267,7 @@ function Son() {
 2. useEffect 是指 state 更新时的副作用函数，可以充当 componentDidMount、vue-watch 作用
 3. useMemo 起到 vue-computed 作用，缓存-在某个数据更新时才执行回调函数
 4. useCallback 避免组件方法重新执行时再次创建方法
-5. useMemo、useCallback 都有优化性能作用
+5. useMemo、useCallback 都有优化性能作用，第二个参数必须得传[]
 6. useRef 获取真实 dom
 7. useContext(React.Provider()) 函数组件深层嵌套传值的使用方式，在父组件定义与 class 类组件的使用方式一样，只不过在子组件使用要借助 useContext(xxx)接收父组件暴露的值并返回 value
 
@@ -1492,6 +1492,136 @@ export default App;
 :::
 
 ## 14-React 性能和优化
+
+### react 的时间切片
+
+Vue 有依赖收集，做到最小的更新范围，而 React 没有做这件事，而是整个组件树一块更新，就会有很长的 Diff 算法对比和计算工作。
+
+这大量的更新，Diff 算法计算工作会耗大量时间，可能会阻塞主线程从而导致页面长时间白屏。
+
+React 为了解决这个问题，选择使用一种策略-时间切片，也就是先计算一部分更新，然后让渡给浏览器主线程渲染，然后再进行下一步更新。以此往复。就不会出现上时间白屏了。
+
+### fiber
+
+为了支持这种切片，我们需要把更新化成一个个单元，然后我们也必须有恢复上一次计算进度的能力
+
+所以 react 设计了一种数据结构 fiber
+
+把每个组件转化为一个 fiber 结构的对象，组成一个个单元。每个 Fiber 包含了三个指针，指向父节点、兄弟节点、子节点，这些指向让时间切片有了恢复上次中断的计算进度的能力。
+
+### 性能保障
+
+注意两点：层级组件联动更新、组件自身更新
+
+#### 1.避免父组件更新导致子组件更新
+
+这是消耗性能最大的问题，类组件使用 PureComponent、函数组件使用 React.memo()
+
+::: code-group
+
+```js [App.js]
+import React, { useState, useMemo, useCallback } from "react";
+import Son from "./Son";
+// 使用React.memo包一层，作用避免子组件更新（React.memo本身就是一个高阶组件）
+const MemoSon = React.memo(Son);
+
+export default function App() {
+  let [num, setNum] = useState(0);
+
+  function handleChangeNum() {
+    let _num = num + 1;
+    setNum(_num);
+  }
+  return (
+    <div>
+      {num}
+      <button onClick={handleChangeNum}>修改</button>
+      <Son></Son> // [!code --]
+      <MemoSon></MemoSon>// [!code ++]
+    </div>
+  );
+}
+```
+
+```js [Son.js]
+
+```
+
+:::
+
+并非使用了 PureComponent 或 useMemo 就万事大吉，对于定义的非 state 数据，像一些写是的对象、方法并传给子组件 props，也会触发子组件更新
+
+使用 useMemo 包裹对象、 useCallback 包裹方法来避免
+
+```js
+import React, { useState, useMemo, useCallback } from "react";
+import Son from "./Son";
+
+// 使用React.memo包一层，作用避免子组件更新（React.memo本身就是一个高阶组件）
+const MemoSon = React.memo(Son);
+
+export default function App() {
+  let [num, setNum] = useState(0);
+
+  // [!code --]
+  const obj = {
+    a: 1,
+  };
+  function f1() {
+    console.log("f1");
+  }
+  // [!code --]
+
+  // [!code ++]
+  // 使用 useMemo 对象, 第二参数必须传[]
+  const obj = useMemo(() => {
+    return { a: 1 };
+  }, []);
+
+  // 使用 useCallback 包裹 方法, 第二参数必须传[]
+  const f1 = useCallback(function () {
+    console.log("f1");
+  }, []);
+  // [!code ++]
+
+  function handleChangeNum() {
+    let _num = num + 1;
+    setNum(_num);
+  }
+  return (
+    <div>
+      {num}
+      <button onClick={handleChangeNum}>修改</button>
+      {/* <Son></Son> */}
+      <MemoSon></MemoSon>; // [!code --]
+      <MemoSon obj={obj} f1={f1}></MemoSon>; // [!code ++]
+    </div>
+  );
+}
+```
+
+#### 2.避免 state 同样的值产生更新
+
+避免 state 修改为同样的值，而产生无意义的更新（类组件使用 PureComponent、函数组件使用 useState 定义本身就会判断）
+
+::: tip 总结
+
+由于 react 更新是整个组件树更新，Diff 算法运算时间长，长了会导致阻塞浏览器渲染主线程，为了避免阻塞，react 设计了一种 fiber 数据结构，利用每段时间切片（16ms）空闲时间，以 fiber 单位，一个一个地更新，时间一到就中断交给主线程，该结构主要包含三个指向父节点、兄弟节点、子节点，避免恢复上一次中断的计算。
+
+注意两点：层级组件联动更新、组件自身更新
+
+1. 避免父组件更新导致子组件更新
+
+- PureComponent、函数组件 React.memo()
+
+2. 避免 state 同样的值产生更新
+
+- PureComponent、函数组件使用 useState 定义本身就会判断
+
+对于定义的非 state 数据，像一些写是的对象、方法并传给子组件 props，也会触发子组件更新
+，使用 useMemo 包裹对象、 useCallback 包裹方法来避免
+
+:::
 
 ## 15-react-router 的使用
 
