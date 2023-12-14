@@ -1277,6 +1277,220 @@ function Son() {
 
 ## 13-高阶组件
 
+方法接收一个组件并返回一个匿名组件，这个返回结果成为高阶组件。高阶组件主要用于单纯的逻辑复用，不涉及 ui。
+
+类似于 vue-Mixin 和自定义指令
+
+### 基本使用
+
+1. 创建一个 TestHoc 文件，定义高阶组件函数，导出一个方法
+
+```js
+import React from "react";
+// 本质是一个方法，接收一个组件，返回一个匿名组件
+function TestHoc(UserCom) {
+  return class extends React.Component {
+    state = {
+      msg: "hello hoc",
+    };
+    render() {
+      return (
+        <>
+          {/* props原封不动，其他数据、逻辑运算结果等可复用 */}
+          <UserCom msg={this.state.msg} {...this.props}></UserCom>
+        </>
+      );
+    }
+  };
+}
+
+export default TestHoc;
+```
+
+2. 导入使用，调用高阶组件函数传入需要复用逻辑的组件
+
+```js
+import { useState } from "react";
+// 1.引入
+import TestHoc from "./TestHoc";
+import Son from "./Son";
+// 2.创建
+const HocSon = TestHoc(Son);
+
+function App() {
+  const [name, setName] = useState("王花花");
+  function handleChangeName() {
+    setName("李明花");
+  }
+  return (
+    <div>
+      <h1>高阶组件</h1>
+      <button onClick={handleChangeName}>修改名称</button>
+      {/* 3.使用 */}
+      <HocSon name={name}></HocSon>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### 例子说明
+
+1. 提供复用的数据和方法，给到组件 props，可以将很多页面都有的一些逻辑操作提取出来，写成高阶组件函数
+2. 提供生命周期，因为我们返回的是一个类组件，也可以使用 PureComponent，形成一个高阶的 PureComponent 组件
+
+#### Ex: 获取鼠标在屏幕上的位置
+
+::: code-group
+
+```js [GetXYHoc.js]
+import React from "react";
+
+function TestHoc(UserCom) {
+  return class extends React.Component {
+    state = {
+      x: 0,
+      y: 0,
+    };
+    componentDidMount() {
+      // 监听获取x,y
+      window.addEventListener("mousemove", (e) => {
+        const _x = e.clientX;
+        const _y = e.clientY;
+        this.setState({
+          x: _x,
+          y: _y,
+        });
+      });
+    }
+    render() {
+      return (
+        <>
+          {/* props传入x,y */}
+          <UserCom x={this.state.x} y={this.state.y} {...this.props}></UserCom>
+        </>
+      );
+    }
+  };
+}
+
+export default TestHoc;
+```
+
+```js [App.js]
+import Son from "./Son";
+import GetXYHoc from "./GetXYHoc";
+const HocSon = GetXYHoc(Son); // 1.创建
+
+function App() {
+  return (
+    <div>
+      <h1>高阶组件</h1>
+      {/* 2.使用 */}
+      <HocSon></HocSon>
+    </div>
+  );
+}
+
+export default App;
+```
+
+```js [Son.js]
+function Son(props) {
+  return (
+    <div>
+      {/* 使用props获取x,y */}
+      x: {props.x},y: {props.y}
+    </div>
+  );
+}
+export default Son;
+```
+
+:::
+
+#### Ex: 与 PureComponent 一样作用的高阶组件
+
+::: code-group
+
+```js [MemoHoc.js]
+import React from "react";
+
+export default function MemoHoc(UseCom) {
+  return class extends React.Component {
+    shouldComponentUpdate(props, state) {
+      let isShouldUpdate = false;
+      // 判断props
+      for (const key in this.props) {
+        if (this.props[key] !== props[key]) {
+          return (isShouldUpdate = true);
+        }
+      }
+      // 判断state
+      for (const key in this.state) {
+        if (this.state[key] !== state[key]) {
+          return (isShouldUpdate = true);
+        }
+      }
+      return isShouldUpdate;
+    }
+    render() {
+      return (
+        <>
+          <UseCom {...this.props}></UseCom>
+        </>
+      );
+    }
+  };
+}
+```
+
+```js [App.js]
+import { useState } from "react";
+import Son from "./Son";
+import MemoHoc from "./MemoHoc";
+
+const MemoSon = MemoHoc(Son);
+
+function App() {
+  const [name, setName] = useState("王花花");
+  const [age, setAge] = useState(18);
+
+  function handleChangeName() {
+    setName("李明花");
+  }
+  function handleChangeAge() {
+    setAge(20);
+  }
+  return (
+    <div>
+      <h1>高阶组件</h1>
+      {/* 修改传入props值，会触发Son更新 */}
+      <button onClick={handleChangeName}>修改名称</button>
+      <MemoSon name={name}></MemoSon>
+      {/* 只修改state值，没有传入props，不会触发Son更新 */}
+      <button onClick={handleChangeAge}>修改年龄</button>
+      {age}岁
+    </div>
+  );
+}
+
+export default App;
+```
+
+:::
+
+::: tip 总结
+
+1. 组件：包含 ui 复用、逻辑复用
+2. 高阶组件：只复用操作逻辑、运算
+
+类似于 vue 中的 Mixin 的用途，当我们发现某个逻辑操作或者某个运算在经常出现的时候，即可使用高阶组件。
+
+“高阶函数”指函数接收一个方法返回一个新方法，高阶组件即使用函数接收一个组件返回一个新组件
+:::
+
 ## 14-React 性能和优化
 
 ## 15-react-router 的使用
