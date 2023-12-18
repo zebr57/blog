@@ -1625,6 +1625,231 @@ export default function App() {
 
 ## 15-react-router 的使用
 
+### **React-router 三种版本**
+
+React-router 服务端渲染使用
+
+React-router-dom 浏览器端渲染使用
+
+React-router-native RN 混合开发
+
+### React-router 的使用步骤
+
+1.  通过 BroserRouter 或者 HashRouter 包裹组件
+2.  使用 Routes 组件，定义路由显示区域
+3.  使用 Route 组件，定义具体路由规则
+4.  使用 NavLink 或者 Link 组件，定义跳转链接
+
+### React-router 提供的一些其他重要组件
+
+1.  Navigate 路由重定向
+2.  Outlet，嵌套路由的子路由显示处
+
+- 在父组件下引入 Outlet，提供子组件显示位置
+- 子路由只需在 route 中嵌套即可，注意会自动拼接父路径+/子 path
+
+::: code-group
+
+```js [App.js]
+import React from "react";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+
+import Page2 from "./Page2";
+import Page2Son1 from "./Page2Son1";
+import Page2Son2 from "./Page2Son2";
+
+function App() {
+  return (
+    <div className="name">
+      <BrowserRouter>
+        <NavLink to={"/Page2"}>Page2</NavLink>
+        <NavLink to={"/Page2/son1"}>Page2Son1</NavLink>
+        <NavLink to={"/Page2/son2"}>Page2Son2</NavLink>
+        <Routes>
+          {/* 嵌套路由 */}
+          <Route path="/Page2" element={<Page2 />}>
+            <Route path="son1" element={<Page2Son1 />}></Route>
+            <Route path="son2" element={<Page2Son2 />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
+```
+
+```js [Page2]
+import React from "react";
+import { Outlet } from "react-router-dom"; // 引入
+export default function Page2() {
+  return (
+    <div>
+      Page2
+      {/* 使用 */}
+      <Outlet></Outlet>
+    </div>
+  );
+}
+```
+
+:::
+
+### 如何获取路由参数
+
+1. Params 参数
+
+- v6：useParams
+- v5：this.props.match.params
+
+```js
+import { useSearchParams } from "react-router-dom"; // 1.引入
+export default function Page4() {
+  // 2.解构
+  let [searchParams, setSearchParams] = useSearchParams();
+  // 3.通过searchParams原型上的get方法获取
+  console.log(searchParams.get("a"));
+  return (
+    <div>
+      Page4
+      {/* 4.通过setSearchParams方法修改 */}
+      <button
+        onClick={() => {
+          setSearchParams({
+            a: 123,
+            b: 456,
+          });
+        }}
+      >
+        修改路由参数
+      </button>
+    </div>
+  );
+}
+```
+
+2. Query 参数
+
+- v6：useSearchParams
+- v5：this.props.location.search
+
+```js
+//
+<Route path="/Page3/:id" element={<Page3 />}></Route>;
+//
+// query - /page2/99
+import { useParams } from "react-router-dom"; // 1.引入
+export default function Page3() {
+  // 2.获取
+  let routerParams = useParams();
+  console.log(routerParams); // {id: 99}
+  return <div>Page3</div>;
+}
+```
+
+3. Location 信息
+
+- v6: useLocation
+- v5: this.props.location.state
+
+```js
+import { useLocation } from "react-router-dom"; // 1.引入
+export default function Page1() {
+  console.log(useLocation()); // 2.获取
+  return <div>Page1</div>;
+}
+```
+
+### 通过 js 跳转路由
+
+- v6: useNavigate 创建跳转方法
+- v5: this.props.history.push()
+
+```js
+import { Outlet, useNavigate } from "react-router-dom"; // 1.引入
+export default function Page2() {
+  // 2.获取
+  let navTo = useNavigate();
+  return (
+    <div>
+      Page2
+      <button
+        onClick={() => {
+          {
+            /* 3.使用 */
+          }
+          navTo("/Page1", {
+            // state也是一种参数，可在useLocation返回的对象中获取，但不在url显示
+            state: {
+              state1: "hello",
+            },
+          });
+        }}
+      >
+        跳转到page1
+      </button>
+      <Outlet></Outlet>
+    </div>
+  );
+}
+```
+
+### 路由鉴权
+
+```js
+// ...
+const _token = localStorage.getItem("token");
+// ...
+// 不渲染
+{
+  _token ? <Route path="/Page1" element={<Page1 />}></Route> : "";
+}
+// 重定向
+<Route path="/Page1" element={_token ? <Page1 /> : <Navigate to="/Page4"></Navigate>}></Route>;
+```
+
+### 异步路由
+
+react 做异步路由，需要配合 react 本身的 lazy 方法和 suspense 组件
+
+```js
+import { lazy, Suspense } from "react";
+let LazyPage4 = lazy(() => {
+  return import("./Page4");
+});
+
+// ..
+/* Suspense作用：过渡效果，组件还没加载好显示加载中 */
+<Suspense fallback={<h1>加载中</h1>}>
+  <Routes>
+    <Route path="/Page4" element={<LazyPage4 />}></Route>
+  </Routes>
+</Suspense>;
+// ...
+```
+
+### 感受 React 的全局插件使用方式
+
+react 中没有 vue 那样的 vue.use 方法，react 中使用一个插件，库，都是引入一个组件，然后把要使用该插件的部分包裹起来。
+
+::: tip 总结
+
+1. react 路由有三个版本，主要使用 react-router-dom 版本，该版本 v5 和 v6 使用上有很大区别（类和 Hook）
+2. 两种路由模式，使用 BrowserRouter 或者 HashRouter 包裹 App
+3. 使用 Routes + Route 定义路由规则， Route 两个 props 值，path 路劲，element 组件
+4. 嵌套子路由只需在 Route 中嵌套 Route，会自动拼接父级组件路径+/子路由 path 路径
+5. 携带\获取参数
+
+- query 只需在定义路由规则 path="page1/:id"， 子组件中调用 useParams()获取
+- params 麻烦一点，结构 useSearchParams() => [searchParams, setSearchParams]，通过 searchParams.get('x')获取、setSearchParams({a:'1'})设置
+- location 通过 useLocation()即可获取，setSearchParams({a:'1'},state({这里也能设置值}))
+
+6. 路由鉴权，判断localStorage.getItem("token"); 
+
+
+:::
+
 ## 16-react 中的全局状态管理
 
 ## 17-react 中的路由权限控制
