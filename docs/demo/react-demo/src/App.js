@@ -13,13 +13,14 @@ import React, { useState } from "react";
 // import Test12 from "./components/12-函数式组件与Hook/App";
 // import Test13 from "./components/13-高阶组件/App";
 // import Test14 from "./components/14-react性能问题和优化/App";
-import Test15 from "./components/15-react-router的使用/App";
+// import Test15 from "./components/15-react-router的使用/App";
+import Test16 from "./components/16-redux全局状态管理/App2";
 
 // react 和 jsx 是相互独立的，本质是通过babel编译成一个createElement对象
 function App() {
   return (
     <div className="App">
-      <Test15></Test15>
+      <Test16></Test16>
     </div>
   );
 }

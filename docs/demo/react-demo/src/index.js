@@ -4,6 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+// import store from "./store/index";
+import store from "./store/toolkitIndex";
+import { Provider } from "react-redux";
+
 /* 
   相当于vue中的 main.js - 把项目挂载至指定的dom
   vue是创建根实例-通过实例自身app.mount('#app') 挂载至指定的dom
@@ -14,7 +18,9 @@ import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
+  <Provider store={store}>
     <App />
+  </Provider>
   // </React.StrictMode>
 );
 // - 卸载
