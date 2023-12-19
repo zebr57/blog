@@ -1845,12 +1845,533 @@ react 中没有 vue 那样的 vue.use 方法，react 中使用一个插件，库
 - params 麻烦一点，结构 useSearchParams() => [searchParams, setSearchParams]，通过 searchParams.get('x')获取、setSearchParams({a:'1'})设置
 - location 通过 useLocation()即可获取，setSearchParams({a:'1'},state({这里也能设置值}))
 
-6. 路由鉴权，判断localStorage.getItem("token"); 
-
+6. 路由鉴权，判断 localStorage.getItem("token");
 
 :::
 
 ## 16-react 中的全局状态管理
+
+react 没有想 vue 一样有个专门处理全局状态值的库 vuex，只是依赖普通的 js 状态管理库，主要用的有：
+
+- 最老的是 redux
+- 新的 mobx
+
+### 先说 redux
+
+#### 安装依赖
+
+```shell
+npm install redux @redux/toolkit
+```
+
+#### 创建 store
+
+```js [store/index.js]
+// store/index.js
+// 新版本方法名legacy_createStore
+import { legacy_createStore as createStore } from "redux"; // 1.引入
+// 2.定义方法
+function mesReducer(state = { mes: "hello" }, action) {
+  switch (action.type) {
+    case "changeMes":
+      state.mes = action.payload;
+      return { ...state };
+    case "resetMes":
+      state.mes = "hello";
+      return { ...state };
+    default:
+      return state;
+  }
+}
+// 3.创建store
+let store = createStore(mesReducer);
+
+export default store;
+```
+
+#### 项目中使用
+
+```js [App.js]
+// App.js
+import store from "../../store/index";
+let state = store.getState();
+
+//..
+<div>mes:{state.mes}</div>;
+<button onClick={() => {
+  store.dispatch({
+    type: 'changeMes',
+    payload: "hello word!"
+  })
+  console.log(store.getState());
+  }}>修改mes</button>
+}
+//...
+```
+
+由于只是普通 js 库，跟 react 没有关联，修改值后但是不能使 react 组件更新，可通过监听 store
+的改变，调用 render，不过这种方式过于简单粗暴
+
+```js
+store.subscribe(() => {
+  render(root);
+});
+```
+
+### 使用 react-redux 的 Provider 和 connect
+
+1. 安装
+
+```shell
+npm install react-redux
+```
+
+2. 使用
+
+- 使用 Provider 包裹 App，并传将 store 作为 props 传递
+
+```js [index.js]
+// index.js
+import store from "./store/index";
+import { Provider } from "react-redux";
+
+//...
+<Provider store={store}>
+  <App />
+</Provider>;
+//...
+```
+
+- 使用 connect 包裹导出的组件，定义映射的 state 到 props，自定义修改对应 state 方法
+
+```js
+import { connect } from "react-redux";
+
+function App(props) {
+  console.log(props);
+  return (
+    <div className="container">
+      redux
+      <div>mes:{props.mes}</div>
+      <button
+        onClick={() => {
+          props.changeMes();
+        }}
+      >
+        修改mes
+      </button>
+    </div>
+  );
+}
+/**
+ * 第一个参数是将哪些属性 映射到props，必须返回一个对象
+ * 第二个参数是方法映射，给props里加入哪些方法，没有传就用props.dispatch
+ */
+let reduxApp = connect(
+  (state) => {
+    return {
+      mes: state.mes,
+    };
+  },
+  (dispatch) => {
+    return {
+      changeMes() {
+        dispatch({
+          type: "changeMes",
+          payload: "hello word!",
+        });
+      },
+    };
+  }
+)(App);
+export default reduxApp;
+```
+
+#### 多模块
+
+1. 从 react-redux 引入 combineReducers
+2. 定义另外 reducer 方法
+3. 将新定义的 reducer 以对象形式传入 combineReducers()
+4. 将 combineReducers({...})结果传入 createStore(...)
+5. 使用 state 需要前面加模块名称，dispatch 修改不用
+
+::: code-group
+
+```js [store/index.js]
+// 1. 引入
+import { legacy_createStore as createStore } from "redux"; // [!code --]
+import { legacy_createStore as createStore, combineReducers } from "redux"; // [!code ++]
+// 2.定义
+function mesReducer(state = { mes: "hello" }, action) {
+  switch (action.type) {
+    case "changeMes":
+      state.mes = action.payload;
+      return { ...state };
+    case "resetMes":
+      state.mes = "hello";
+      return { ...state };
+    default:
+      return state;
+  }
+function numReducer(state = { num: 0 }, action) {// [!code ++]
+  switch (// [!code ++]
+    action.type // [!code ++]
+  ) {// [!code ++]
+    case "changeNum": // [!code ++]
+      state.num = action.payload; // [!code ++]
+      return { ...state }; // [!code ++]
+    case "resetNum": // [!code ++]
+      state.num = 99; // [!code ++]
+      return { ...state }; // [!code ++]
+    default: // [!code ++]
+      return state; // [!code ++]
+  } // [!code ++]
+} // [!code ++]
+
+// 3.传入 combineReducers
+let reducer = combineReducers({ // [!code ++]
+  // [!code ++]
+  mesReducer, // [!code ++]
+  numReducer, // [!code ++]
+}); // [!code ++]
+
+// 4.创建多模块仓库
+let store = createStore(mesReducer); // [!code --]
+let store = createStore(reducer); // [!code ++]
+
+export default store;
+```
+
+```js [App.js]
+import { connect } from "react-redux";
+
+function App(props) {
+  console.log(props);
+  return (
+    <div className="container">
+      redux
+      <div>mes:{props.mes}</div>
+      <div>num:{props.num}</div>
+      <button
+        onClick={() => {
+          props.changeMes();
+        }}
+      >
+        修改mes
+      </button>
+    </div>
+  );
+}
+/**
+ * 第一个参数是将哪些属性 映射到props，必须返回一个对象
+ * 第二个参数是方法映射，给props里加入哪些方法
+ */
+let reduxApp = connect(
+  (state) => {
+    console.log(state); // [!code ++] 模块结果{mesReducer: {…}, numReducer: {…}}
+    return {
+      mes: state.mesReducer.mes, // [!code ++]
+      num: state.numReducer.num, // [!code ++]
+    };
+  },
+  (dispatch) => {
+    return {
+      changeMes() {
+        dispatch({
+          type: "changeMes",
+          payload: "hello word!",
+        });
+      },
+    };
+  }
+)(App);
+export default reduxApp;
+```
+
+:::
+
+### @reduxjs/toolkit
+
+#### 创建以及使用方式
+
+::: code-group
+
+```js [store/toolkit]
+// 1.引入
+import { createSlice, configureStore } from "@reduxjs/toolkit";
+// 2.定义切片
+let mesSlice = createSlice({
+  name: "mesSlice", // 切片名，dispatch时需要加的前缀
+  initialState: {
+    mes: "hello",
+  },
+  reducers: {
+    changeMes(state, action) {
+      state.mes = action.payload;
+    },
+  },
+});
+
+let numSlice = createSlice({
+  name: "numSlice",
+  initialState: {
+    num: 0,
+  },
+  reducers: {
+    addNum(state, action) {
+      state.num += 1;
+    },
+  },
+});
+// 3.配置模块化仓库
+const store = configureStore({
+  reducer: {
+    mesReducer: mesSlice.reducer,
+    numReducer: numSlice.reducer,
+  },
+});
+
+export default store;
+```
+
+```js [index.js]
+// ...
+// import store from "./store/index"; // [!code --]
+import store from "./store/toolkitIndex"; // [!code ++]
+import { Provider } from "react-redux";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  // <React.StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>
+  // </React.StrictMode>
+);
+/// ...
+```
+
+```js [App.js]
+let reduxApp = connect(
+  (state) => {
+    console.log(state); // 模块结果{mesReducer: {…}, numReducer: {…}}
+    return {
+      mes: state.mesReducer.mes,
+      num: state.numReducer.num,
+    };
+  },
+  (dispatch) => {
+    return {
+      changeMes() {
+        dispatch({
+          type: "mesSlice/changeMes", // [!code --]
+          type: "mesSlice/changeMes", // [!code ++]
+          payload: "hello word!",
+        });
+      },
+    };
+  }
+)(App);
+```
+
+:::
+
+#### 一般使用解构暴露形式去改变 state
+
+::: code-group
+
+```js [toolkit.js]
+//...
+
+let mesSlice = createSlice({...})
+let numSlice = createSlice({...});
+
+// console.log(mesSlice.actions); // {changeMes: ƒ}
+
+export let { changeMes } = mesSlice.actions
+export let { addNum } = numSlice.actions
+
+export default store;
+
+//...
+```
+
+```js [App.js]
+// 1. 引入
+import { changeMes, addNum } from "../../store/toolkitIndex";
+
+//..
+let reduxApp = connect(
+  (state) => {
+    console.log(state); // 模块结果{mesReducer: {…}, numReducer: {…}}
+    return {
+      mes: state.mesReducer.mes,
+      num: state.numReducer.num,
+    };
+  },
+  (dispatch) => {
+    return {
+      changeMes() {
+        // 2.传入
+        dispatch(changeMes("hello word"));
+      },
+      addNum() {
+        // 2.传入
+        dispatch(addNum());
+      },
+    };
+  }
+)(App);
+//..
+```
+
+:::
+
+### 使用 hook 的方式
+
+只能用于 toolkit，只能用于函数组件
+
+::: code-group
+
+```js [App2.js]
+// 1. 引入
+import { useSelector, useDispatch } from "react-redux";
+import { addNum } from "../../store/toolkitIndex";
+
+function App2() {
+  // 2. 映射到state
+  let num = useSelector((state) => {
+    return state.numReducer.num;
+  });
+  let dispatch = useDispatch();
+  return (
+    <div className="container">
+      toolkit-hook
+      {/* 3.使用 */}
+      <div>num:{num}</div>
+      <button
+        onClick={() => {
+          //4.修改方式1
+          dispatch({
+            type: "numSlice/addNum",
+          });
+          // 4.修改方式2
+          dispatch(addNum());
+        }}
+      >
+        修改num
+      </button>
+    </div>
+  );
+}
+
+export default App2;
+```
+
+:::
+
+#### 异步问题！！
+
+无论 react-redux 或 toolkit 中，异步都是需要特殊处理的，否则报错
+
+使用 createAsyncThunk 创建并暴露出去，在对应切片中定义 extraReducers
+::: code-group
+
+```js [store/toolkitIndex.js]
+// 1. 引入
+import { createSlice, configureStore, createAsyncThunk } from "@reduxjs/toolkit";
+
+// 2. 定义thunk异步,定义必须在 slice 前面，第一个参数可随意起，第二个参数异步函数返回一个Promise
+export let changeNumThunk = createAsyncThunk("numSlice/changeNum", async () => {
+  let res = await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(999);
+    }, 1000);
+  });
+  return res;
+});
+// 3.切片中定义 extraReducers
+let numSlice = createSlice({
+  name: "numSlice",
+  initialState: {
+    num: 0,
+  },
+  reducers: {
+    addNum(state, action) {
+      state.num += 1;
+    },
+  },
+  // 异步reducers
+  extraReducers: (chunk) => {
+    chunk.addCase(changeNumThunk.pending, () => {
+      console.log("pending");
+    });
+    chunk.addCase(changeNumThunk.fulfilled, (state, action) => {
+      state.num = action.payload;
+    });
+    chunk.addCase(changeNumThunk.rejected, () => {
+      console.log("rejected");
+    });
+  },
+  // 对象写法
+  // extraReducers: {
+  //   [changeNumThunk.fulfilled]:(state, action) => {
+  //     state.num = action.payload
+  //   }
+  // }
+});
+// 3.配置模块化仓库
+const store = configureStore({
+  reducer: {
+    numReducer: numSlice.reducer,
+  },
+});
+// console.log(numSlice.actions); // {changeNum: ƒ}
+
+export let { addNum } = numSlice.actions;
+
+export default store;
+```
+
+```js [App.js]
+import { useSelector, useDispatch } from "react-redux";
+import { changeNumThunk } from "../../store/toolkitIndex";
+
+function App2() {
+  // hook是映射到state上
+  let num = useSelector((state) => {
+    return state.numReducer.num;
+  });
+  let dispatch = useDispatch();
+  return (
+    <div className="container">
+      toolkit-hook
+      <div>num:{num}</div>
+      <button
+        onClick={() => {
+          dispatch(changeNumThunk());
+        }}
+      >
+        异步修改
+      </button>
+    </div>
+  );
+}
+
+export default App2;
+```
+
+:::
+
+::: tip 总结
+
+1. react 没有专用的状态管理库，像常用最老的 redux 都是普通 js 的库
+2. 普通 js 库不能触发 react 组件更新，使用 react-redux 库，本质是通过将 store 的值映射到 props，使用 Provider 包裹 App，并传将 store 作为 props 传递
+3. 多模块使用 combineReducers({...})，将 reducer 作为对象键值传入
+4. @reduxjs/toolkit，解决 redux 定义默认值、行为过于繁琐，提供更舒服的创建方式，基于 redux，不过它是将 state 映射到 state 中，而不是 props 了，还有一点，toolkit 支持以 hook 方式在函数组件中使用，提供了 useSelector, useDispatch
+5. 关于异步问题，redux、toolkit 是需要特殊处理的，使用 createAsyncThunk 接收两个参数，名称、异步函数返回一个 Promise， 创建并暴露出去，在对应切片中定义 extraReducers，处理不同状态（pending、fulfilled、rejected）时执行的回调函数。
+
+:::
 
 ## 17-react 中的路由权限控制
 
