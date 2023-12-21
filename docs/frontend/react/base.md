@@ -2375,6 +2375,118 @@ export default App2;
 
 ## 17-react 中的路由权限控制
 
+流程： 初始只有登录页面 - 获取用户页面权限 -把用户页面权限和初始路由合并 - 存储到 redux 中 - 触发 app 重新渲染 - 生成路由
+
+1. 初始只有登录页面
+
+- 将初始（公共的路由）和权限路由分开，创建时合并用户页面权限路由
+
+2. 获取用户页面权限
+
+- 接口获取用户权限，数据格式为树结构，包含组件标题、组件名等信息；也可以返回组件名字符串，但是需要本地去匹配。
+- 以前面的方式，根据接口返回的路由数据结构和 component 字段递归创建路由
+
+3. 存储 redux 仓库中，在映射到组件state，数据更新时，组件也更新、重新生成路由
+
+4. 本地存储化，避免通过地址栏跳转、触发App和redux仓库初始化
+
+::: code-group
+
+```js [routesMap.js]
+import Page1 from "../components/17-路由权限控制/Page1";
+import Page2 from "../components/17-路由权限控制/Page2";
+import Page3 from "../components/17-路由权限控制/Page3";
+import Page2Son1 from "../components/17-路由权限控制/Page2Son1";
+import Page2Son2 from "../components/17-路由权限控制/Page2Son2";
+import Page4 from "../components/17-路由权限控制/Page4";
+
+import Login from "../components/17-路由权限控制/Login";
+
+export default {
+  Page1,
+  Page2,
+  Page3,
+  Page2Son1,
+  Page2Son2,
+  Page4,
+  Login,
+};
+```
+
+```js [createRoutes.js]
+import { Route } from "react-router-dom";
+import routeMap from "../router/routesMap";
+// 递归创建路由，根据 component 字段匹配
+export function createRoute(routesList) {
+  return routesList.map((item) => {
+    if (item.children && item.children.length > 0) {
+      return (
+        <Route key={item.path} path={item.path} Component={routeMap[item.component]}>
+          {createRoute(item.children)}
+        </Route>
+      );
+    } else {
+      return <Route key={item.path} path={item.path} Component={routeMap[item.component]}></Route>;
+    }
+  });
+}
+```
+
+```js [origanRoutes.js]
+// 数据格式
+const userInfo = {
+  name: "admin1",
+  routes: [
+    {
+      path: "/page1",
+      component: "Page1",
+    },
+    {
+      path: "/page2",
+      component: "Page2",
+      children: [
+        {
+          path: "page2Son",
+          component: "Page2Son",
+        },
+        {
+          path: "page2Son2",
+          component: "Page2Son2",
+        },
+      ],
+    },
+  ],
+};
+```
+
+```js [App.js]
+import { BrowserRouter, Routes } from "react-router-dom";
+import { createRoute } from "../../router/createRoute";
+import origanRoutes from "../../router/routesList"; // 初始路由
+
+import { useSelector } from "react-redux";
+
+function App() {
+  // 获取仓库中的权限路由
+  let routesList = useSelector((state) => {
+    return state.userInfo.routes;
+  });
+
+  return (
+    <div>
+      <BrowserRouter>
+        {/* 创建时把用户页面权限路由跟初始路由合并 */}
+        <Routes>{createRoute(origanRoutes.concat(routesList))}</Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
+```
+
+:::
+
 ## 18-组件库等相关生态
 
 ```
