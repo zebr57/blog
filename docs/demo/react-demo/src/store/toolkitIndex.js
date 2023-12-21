@@ -1,6 +1,6 @@
 // 1.引入
 import { createSlice, configureStore, createAsyncThunk } from "@reduxjs/toolkit";
-
+import userInfo from "./userInfo"
 // 4. 异步,定义必须在 slice 前面, 第一个参数可随意起
 export let changeNumThunk = createAsyncThunk("numSlice/changeNum", async () => {
   let res = await new Promise((resolve) => {
@@ -58,6 +58,7 @@ const store = configureStore({
   reducer: {
     mesReducer: mesSlice.reducer,
     numReducer: numSlice.reducer,
+    userInfo
   },
 });
 // console.log(mesSlice.actions); // {changeMes: ƒ}
