@@ -16,10 +16,10 @@ export default defineConfig({
       {
         text: "前端",
         items: [
-          { text: "工具函数库", link: "/frontend/utils-lib/" },
+          // { text: "工具函数库", link: "/frontend/utils-lib/" },
           { text: "vue", link: "/frontend/vue/" },
-          { text: "react", link: "/frontend/react/" },
-          { text: "工程化", link: "/" },
+          { text: "React", link: "/frontend/react/" },
+          { text: "Node", link: "/frontend/node/" },
         ],
       },
     ],
@@ -35,8 +35,14 @@ export default defineConfig({
           collapsed: true,
         },
         {
-          text: "react",
+          text: "React",
           items: [{ text: "What is React?", link: "/frontend/react/" }],
+          collapsible: true,
+          collapsed: true,
+        },
+        {
+          text: "Node",
+          items: [{ text: "What is Node?", link: "/frontend/node/" }],
           collapsible: true,
           collapsed: true,
         },
