@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <title>login</title>
+  </head>
+  <body>
+    <input type="text" id="username" />
+    <input type="password" id="password" />
+    <button id="login">登录</button>
+    <script>
+      let loginButton = document.querySelector("#login");
+      let userInput = document.querySelector("#username");
+      let passwordInput = document.querySelector("#password");
+
+      loginButton.addEventListener("click", () => {
+        let username = userInput.value;
+        let password = passwordInput.value;
+        handleLogin({ username, password });
+      });
+
+      function handleLogin(params) {
+        axios
+          .post("http://localhost:4000/login", params)
+          .then(function (res) {
+            // handle success
+            if (res.data.message == "登录成功") {
+              let date = new Date();
+              date.setTime(date.getTime() + 0.5 * 24 * 60 * 1000);
+              document.cookie = "username=" + params.username + ";" + "expires" + date.toGMTString();
+              window.location = "http://localhost:3000/list";
+            } else {
+              alert(rea.data.message);
+            }
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+      }
+    </script>
+  </body>
+</html>
