@@ -21,6 +21,8 @@
 
 - 提供选项用户选择
 - 根据选择结果，创建目录并 copy git 上下载的模版代码
+- 修改窗口字体颜色
+- 加载提示
 
 6. 携带配置参数、执行指令 -- commander 第三方库
 
@@ -84,11 +86,11 @@ linsen@LinsenMBP node-tool-demo %
 
 ## 介绍两个包 commander、inquirer
 
-- commander
+- [commander](https://www.npmjs.com/package/commander)
 
 像我们执行 webpack -v ，webpack -help， -v、-help 就是附带的指令，根据附带指令在命令行输出一些信息，commander 就是做的事情
 
-- inquirer
+- [inquirer](https://www.npmjs.com/package/inquirer#installation)
 
 像我们执行 vue-cli 创建项目时，会提供一些选项供我们选，像这种窗口交互行为就是 inquirer 做的事情
 
@@ -192,6 +194,8 @@ linsen@LinsenMBP node-tool-demo %
 - copy 到本地指定位置
 
 安装从 git 下来代码的库
+
+- [download-git-repo](https://www.npmjs.com/package/download-git-repo)
 
 ```shell
 npm install --save download-git-repo
@@ -324,3 +328,5 @@ Commands:
   init <name>
   help [command]  display help for command
 ```
+
+[demo 代码地址](https://gitee.com/shen-linqiang/blog-vitepress/tree/master/docs/demo/node-tool-demo)
