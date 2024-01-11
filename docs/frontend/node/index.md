@@ -26,6 +26,8 @@
 
 [Node koa 实战 bff 中间层](./koa-bff.md)
 
+[Node 工程化工具](./node-cli.md)
+
 从 0 开始
 
 node 在项目中真正的用处
