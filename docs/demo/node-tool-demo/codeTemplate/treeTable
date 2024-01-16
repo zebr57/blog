@@ -1,0 +1,11 @@
+<template>
+  <table data="tableList" @changePage="handleChangePage"><table>
+</template>
+
+{
+  tableList: []
+}
+
+handleChangePage(e) {
+  
+}
