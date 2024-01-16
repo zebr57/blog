@@ -26,7 +26,9 @@
 
 [Node koa 实战 bff 中间层](./koa-bff.md)
 
-[Node 工程化工具](./node-cli.md)
+[Node 工程化工具-cli](./node-cli.md)
+
+[Node 工程化工具-plugin](./webpack-plugin.md)
 
 从 0 开始
 
