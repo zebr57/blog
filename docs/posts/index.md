@@ -1,11 +1,14 @@
 # 日常记录
 
-[2024.01.25 github22端口连接超时报错的解决办法](./github22%E7%AB%AF%E5%8F%A3%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.md)
+[2024.02.26 项目配置eslint+prettier+husk+lint-staged](./project-lint.md)
 
+[2024.02.26 @craco/craco 修改 webpack 配置](./craoco-webpack-config.md)
 
-[2023.11.28 Vue常见的优化手段](./vue%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5.md)
+[2024.01.25 github22 端口连接超时报错的解决办法](./github22%E7%AB%AF%E5%8F%A3%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.md)
 
-[2023.11.27 Vue响应式](./vue%E5%93%8D%E5%BA%94%E5%BC%8F.md)
+[2023.11.28 Vue 常见的优化手段](./vue%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5.md)
+
+[2023.11.27 Vue 响应式](./vue%E5%93%8D%E5%BA%94%E5%BC%8F.md)
 
 [2023.11.22 购物车案例](./%E8%B4%AD%E7%89%A9%E8%BD%A6%E6%A1%88%E4%BE%8B.md)
 
@@ -17,7 +20,7 @@
 
 [2023.11.14 vitepress + gitee 搭建个人静态网站](./vitepress.md)
 
-[2023.11.14 Vscode相关配置](./vscode.md)
+[2023.11.14 Vscode 相关配置](./vscode.md)
 
 [2023.11.13 第二篇](./第二篇.md)
 
