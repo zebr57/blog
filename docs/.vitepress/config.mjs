@@ -11,17 +11,17 @@ export default defineConfig({
     nav: [
       {
         text: "博客",
-        link: "/posts/",
+        link: "/posts/"
       },
       {
         text: "前端",
         items: [
-          // { text: "工具函数库", link: "/frontend/utils-lib/" },
           { text: "vue", link: "/frontend/vue/" },
           { text: "React", link: "/frontend/react/" },
           { text: "Node", link: "/frontend/node/" },
-        ],
-      },
+          { text: "工具函数库", link: "/frontend/utils-lib/" }
+        ]
+      }
     ],
     // 顶部右侧 社交icon
     socialLinks: [{ icon: "github", link: "https://github.com" }],
@@ -32,32 +32,41 @@ export default defineConfig({
           text: "Vue",
           items: [{ text: "What is Vue?", link: "/frontend/vue/" }],
           collapsible: true,
-          collapsed: true,
+          collapsed: true
         },
         {
           text: "React",
           items: [{ text: "What is React?", link: "/frontend/react/" }],
           collapsible: true,
-          collapsed: true,
+          collapsed: true
         },
         {
           text: "Node",
           items: [{ text: "What is Node?", link: "/frontend/node/" }],
           collapsible: true,
-          collapsed: true,
-        },
+          collapsed: true
+        }
       ],
       "/frontend/utils-lib/": [
         {
+          text: "开始",
+          items: [{ text: "说明", link: "/frontend/utils-lib/index.md" }]
+        },
+        {
           text: "工具函数库",
           items: [
-            { text: "is", link: "/frontend/utils-lib/is.md" },
-            { text: "Js_operate", link: "/frontend/utils-lib/Js_operate.md" },
+            { text: "类型判断", link: "/frontend/utils-lib/is.md" },
+            { text: "数字计算", link: "/frontend/utils-lib/calculate.md" },
+            { text: "字符串操作", link: "/frontend/utils-lib/string.md" },
+            { text: "对象操作", link: "/frontend/utils-lib/object.md" },
+            { text: "数组操作", link: "/frontend/utils-lib/array.md" },
+            { text: "树结构操作", link: "/frontend/utils-lib/tree.md" },
+            { text: "格式转化", link: "/frontend/utils-lib/format.md" }
           ],
           collapsible: true,
-          collapsed: true,
-        },
-      ],
+          collapsed: true
+        }
+      ]
     },
 
     // 底部文档
@@ -72,10 +81,10 @@ export default defineConfig({
     // 页脚 仅在siderbar不存在时显示
     footer: {
       //   message: "Released under the MIT License.",
-      copyright: "Copyright © 2023-present LinQiang Shen",
-    },
+      copyright: "Copyright © 2023-present LinQiang Shen"
+    }
   },
   markdown: {
-    lineNumbers: true,
-  },
+    lineNumbers: true
+  }
 });
