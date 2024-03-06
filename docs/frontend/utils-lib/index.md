@@ -8,6 +8,17 @@
 
 对基本运算方法增加了错误边界处理和错误提示
 
+## 下载
+
+https://github.com/zebr57/zebr-js-utils/blob/master/src/utils.js
+
+<!-- <details>
+```js
+```
+<summary>点击查看</summary>
+
+</details> -->
+
 <!-- ## 安装
 
 ::: code-group
@@ -42,6 +53,6 @@ import { add } from "./utils.js";
 add(1, 2, 3);
 ```
 
-## 项目地址
+## 仓库地址
 
-- 
+https://github.com/zebr57/zebr-js-utils/blob/master
