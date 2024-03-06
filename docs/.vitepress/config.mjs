@@ -61,7 +61,8 @@ export default defineConfig({
             { text: "对象操作", link: "/frontend/utils-lib/object.md" },
             { text: "数组操作", link: "/frontend/utils-lib/array.md" },
             { text: "树结构操作", link: "/frontend/utils-lib/tree.md" },
-            { text: "格式转化", link: "/frontend/utils-lib/format.md" }
+            { text: "格式转化", link: "/frontend/utils-lib/format.md" },
+            { text: "本地存储", link: "/frontend/utils-lib/storage.md" }
           ],
           collapsible: true,
           collapsed: true
