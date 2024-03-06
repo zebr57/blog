@@ -16,7 +16,7 @@ export default defineConfig({
       {
         text: "前端",
         items: [
-          { text: "vue", link: "/frontend/vue/" },
+          // { text: "vue", link: "/frontend/vue/" },
           { text: "React", link: "/frontend/react/" },
           { text: "Node", link: "/frontend/node/" },
           { text: "工具函数库", link: "/frontend/utils-lib/" }
@@ -28,12 +28,12 @@ export default defineConfig({
     // 侧边菜单
     sidebar: {
       "/frontend/": [
-        {
-          text: "Vue",
-          items: [{ text: "What is Vue?", link: "/frontend/vue/" }],
-          collapsible: true,
-          collapsed: true
-        },
+        // {
+        //   text: "Vue",
+        //   items: [{ text: "What is Vue?", link: "/frontend/vue/" }],
+        //   collapsible: true,
+        //   collapsed: true
+        // },
         {
           text: "React",
           items: [{ text: "What is React?", link: "/frontend/react/" }],
@@ -42,7 +42,16 @@ export default defineConfig({
         },
         {
           text: "Node",
-          items: [{ text: "What is Node?", link: "/frontend/node/" }],
+          items: [
+            { text: "What is Node?", link: "/frontend/node/" },
+            { text: "常用模块", link: "/frontend/node/base.md" },
+            { text: "文件操作", link: "/frontend/node/file-actions.md" },
+            { text: "buffer和stream", link: "/frontend/node/Buffer-and-stream.md" },
+            { text: "http 服务", link: "/frontend/node/http.md" },
+            { text: "Express 和 Koa 框架", link: "/frontend/node/Express-and-koa.md" },
+            { text: "koa 做 bff 中间层", link: "/frontend/node/koa-bff.md" },
+            { text: "工程化工具-cli", link: "/frontend/node/node-cli.md" }
+          ],
           collapsible: true,
           collapsed: true
         }
@@ -64,8 +73,8 @@ export default defineConfig({
             { text: "格式转化", link: "/frontend/utils-lib/format.md" },
             { text: "本地存储", link: "/frontend/utils-lib/storage.md" }
           ],
-          collapsible: true,
-          collapsed: true
+          collapsible: false,
+          collapsed: false
         }
       ]
     },
