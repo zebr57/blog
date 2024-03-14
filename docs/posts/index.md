@@ -1,5 +1,7 @@
 # 日常记录
 
+[2024.03.14 在 npm 上发包 ](./npm-publish.md)
+
 [2024.02.26 项目配置 eslint+prettier+husk+lint-staged](./project-lint.md)
 
 [2024.02.26 @craco/craco 修改 webpack 配置](./craoco-webpack-config.md)
