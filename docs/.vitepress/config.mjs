@@ -109,12 +109,6 @@ export default defineConfig({
         {
           text: "开始",
           items: [{ text: "说明", link: "/frontend/zebr-cli/index.md" }]
-        },
-        {
-          text: "命令行工具",
-          items: [{ text: "类型判断", link: "/frontend/zebr-cli/is.md" }],
-          collapsible: false,
-          collapsed: false
         }
       ]
     },
