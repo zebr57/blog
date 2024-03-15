@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: 开始
-      link: /posts/README.md
+      link: /posts/readme.md
     - theme: alt
       text: 关于我
       link: /me.md
