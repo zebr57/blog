@@ -4,14 +4,14 @@ layout: home
 hero:
   name: 学习记录
   text: ""
-  tagline: 保持独立思考，不卑不亢，活成自己想要的样子。
+  tagline: "保持独立思考，不卑不亢，活成自己想要的样子。"
   # image:
   #   src: /logo.svg
   #   alt: VitePress
   actions:
     - theme: brand
       text: 开始
-      link: /posts/index.md
+      link: /posts/README.md
     - theme: alt
       text: 关于我
       link: /me.md

@@ -2,6 +2,8 @@
 
 [2024.03.14 在 npm 上发包 ](./npm-publish.md)
 
+[2024.03.14 window 安装 nvm 管理](./window%20%E5%AE%89%E8%A3%85%20nvm%20%E7%AE%A1%E7%90%86.md)
+
 [2024.02.26 项目配置 eslint+prettier+husk+lint-staged](./project-lint.md)
 
 [2024.02.26 @craco/craco 修改 webpack 配置](./craoco-webpack-config.md)

@@ -11,7 +11,7 @@ export default defineConfig({
   themeConfig: {
     // 顶部左侧 站名
     siteTitle: "LinQiang·Shen",
-    logo: "/logo.svg",
+    logo: "/assets/WechatIMG56.jpg",
     // 顶部右侧 导航栏
     nav: [
       {
@@ -41,6 +41,51 @@ export default defineConfig({
     ],
     // 侧边菜单
     sidebar: {
+      "/posts/": [
+        { text: "README", link: "/posts/readme.md" },
+        { text: "BLOG-LIST", link: "/posts/" },
+        {
+          text: "DAILY-LIFE",
+          items: [{ text: "文档驱动", link: "/posts/docs-drive.md" }]
+        },
+        {
+          text: "开发工具",
+          items: [{ text: "window 安装 nvm 管理", link: "/posts/window 安装 nvm 管理.md" }]
+        },
+        {
+          text: "命令行指令",
+          items: [
+            {
+              text: "github22端口连接超时报错",
+              link: "/posts/github22端口连接超时报错的解决办法.md"
+            }
+          ]
+        },
+        {
+          text: "发布",
+          items: [
+            { text: "npm 发包", link: "/posts/npm-publish.md" },
+            { text: "vitepress+gitee发布个人站点", link: "/posts/vitepress.md" }
+          ]
+          // collapsible: true,
+          // collapsed: true
+        },
+        {
+          text: "项目配置",
+          items: [
+            {
+              text: "项目统一规范配置",
+              link: "/posts/project-lint.md"
+            },
+            {
+              text: "craco 修改 webpack 配置",
+              link: "/posts/craoco-webpack-config.md"
+            }
+          ]
+          // collapsible: true,
+          // collapsed: true
+        }
+      ],
       "/frontend/": [
         // {
         //   text: "Vue",
