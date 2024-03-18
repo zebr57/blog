@@ -52,12 +52,21 @@ export default defineConfig({
           text: "开发工具",
           items: [{ text: "window 安装 nvm 管理", link: "/posts/window 安装 nvm 管理.md" }]
         },
+
         {
-          text: "命令行指令",
+          text: " NEW-TECHNOLOGY",
           items: [
             {
-              text: "github22端口连接超时报错",
-              link: "/posts/github22端口连接超时报错的解决办法.md"
+              text: "Vite plugin",
+              link: "/posts/vite-plugin.md"
+            },
+            {
+              text: "Webpack plugin",
+              link: "/posts/webpack-plugin.md"
+            },
+            {
+              text: "Chrome extension",
+              link: "/posts/chrome-extension.md"
             }
           ]
         },
@@ -67,8 +76,6 @@ export default defineConfig({
             { text: "npm 发包", link: "/posts/npm-publish.md" },
             { text: "vitepress+gitee发布个人站点", link: "/posts/vitepress.md" }
           ]
-          // collapsible: true,
-          // collapsed: true
         },
         {
           text: "项目配置",
@@ -82,8 +89,15 @@ export default defineConfig({
               link: "/posts/craoco-webpack-config.md"
             }
           ]
-          // collapsible: true,
-          // collapsed: true
+        },
+        {
+          text: "命令行指令",
+          items: [
+            {
+              text: "github22端口连接超时报错",
+              link: "/posts/github22端口连接超时报错的解决办法.md"
+            }
+          ]
         }
       ],
       "/frontend/": [
