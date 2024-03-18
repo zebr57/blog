@@ -1,5 +1,9 @@
 # 日常记录
 
+[2024.03.19 webpack 插件开发指南](./webpack-plugin.md)
+
+[2024.03.18 谷歌浏览器插件开发（Chrome extension）](./chrome-extension.md)
+
 [2024.03.14 在 npm 上发包 ](./npm-publish.md)
 
 [2024.03.14 window 安装 nvm 管理](./window%20%E5%AE%89%E8%A3%85%20nvm%20%E7%AE%A1%E7%90%86.md)
