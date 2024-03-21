@@ -1,5 +1,9 @@
 # 日常记录
 
+[2024.03.22 vscode 扩展开发指南](./vscode-extension.md)
+
+[2024.03.20 vite 插件开发指南](./vite-plugin.md)
+
 [2024.03.19 webpack 插件开发指南](./webpack-plugin.md)
 
 [2024.03.18 谷歌浏览器插件开发（Chrome extension）](./chrome-extension.md)

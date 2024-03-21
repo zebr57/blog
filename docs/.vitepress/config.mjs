@@ -67,6 +67,10 @@ export default defineConfig({
             {
               text: "Chrome extension",
               link: "/posts/chrome-extension.md"
+            },
+            {
+              text: "Vscode extension",
+              link: "/posts/vscode-extension.md"
             }
           ]
         },
