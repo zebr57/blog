@@ -46,7 +46,10 @@ export default defineConfig({
         { text: "BLOG-LIST", link: "/posts/" },
         {
           text: "DAILY-LIFE",
-          items: [{ text: "文档驱动", link: "/posts/docs-drive.md" }]
+          items: [
+            { text: "文档驱动", link: "/posts/docs-drive.md" },
+            { text: "每日任务", link: "/posts/daily-task.md" }
+          ]
         },
         {
           text: "开发工具",
