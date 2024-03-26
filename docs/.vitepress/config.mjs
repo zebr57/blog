@@ -7,6 +7,7 @@ export default defineConfig({
   lang: "en-US",
   title: "LinQiang.Shen",
   description: "Vite & Vue powered static site generator.",
+  head: [["link", { rel: "icon", href: "/blog-vitepress/favicon.ico" }]],
   // 主题配置
   themeConfig: {
     // 顶部左侧 站名

@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import pdf from "../../../public/assets/简历-沈林强-web前端工程师.pdf";
+import pdf from "/assets/简历-沈林强-web前端工程师.pdf";
 const handleDownload = () => {
   // 打开新窗口并展示PDF
   window.open(pdf);
