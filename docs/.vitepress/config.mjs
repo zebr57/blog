@@ -26,7 +26,8 @@ export default defineConfig({
           { text: "React", link: "/frontend/react/" },
           { text: "Node", link: "/frontend/node/" },
           { text: "工具函数库", link: "/frontend/utils-lib/" },
-          { text: "命令行工具", link: "/frontend/zebr-cli/" }
+          { text: "命令行工具", link: "/frontend/zebr-cli/" },
+          { text: "Kopi ", link: "/frontend/kopi-crx/" }
         ]
       }
     ],
@@ -56,7 +57,6 @@ export default defineConfig({
           text: "开发工具",
           items: [{ text: "window 安装 nvm 管理", link: "/posts/window 安装 nvm 管理.md" }]
         },
-
         {
           text: " NEW-TECHNOLOGY",
           items: [
@@ -76,6 +76,15 @@ export default defineConfig({
               text: "Vscode extension",
               link: "/posts/vscode-extension.md"
             }
+          ]
+        },
+        {
+          text: "开源项目",
+          items: [
+            { text: "node 命令行工具", link: "/frontend/zebr-cli/index.md" },
+            { text: "Js 函数工具库", link: "/frontend/utils-lib/index.md" },
+            { text: "标签管理器", link: "/frontend/kopi-crx/index.md" },
+            { text: "Kopi 文本复制", link: "/frontend/kopi-crx/index.md" }
           ]
         },
         {
