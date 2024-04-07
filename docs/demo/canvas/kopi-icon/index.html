@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas 基础用法</title>
+    <style type="text/css">
+      canvas {
+        /* border: 1px solid black; */
+      }
+    </style>
+  </head>
+  <body onload="draw()">
+    <canvas id="tutorial" width="80" height="80">canvas</canvas>
+    <script>
+      function draw() {
+        let canvas = document.getElementById("tutorial");
+        let ctx = canvas.getContext("2d");
+        if (canvas.getContext) {
+          let ctx = canvas.getContext("2d");
+          // 绘制两个矩形，表示两个页面
+          ctx.fillStyle = "rgb(141, 190, 96)";
+          ctx.fillRect(10, 5, 50, 60);
+          ctx.clearRect(14, 9, 50, 60); // 擦除矩形，隔断效果
+          ctx.fillStyle = "rgb(141, 190, 96)";
+          ctx.fillRect(20, 15, 50, 60);
+          // 绘制文字
+          ctx.fillStyle = "#fff";
+          ctx.font = "36px Helvetica";
+          ctx.fillText("K", 28, 59);
+          // // 绘制线条，表示文本
+          ctx.strokeStyle = "#fff";
+          ctx.beginPath();
+          ctx.moveTo(28, 25);
+          ctx.lineTo(58, 25);
+          ctx.stroke(); // 绘制线条
+          ctx.beginPath();
+          ctx.moveTo(48, 45);
+          ctx.lineTo(64, 45);
+          ctx.stroke(); // 绘制线条
+          ctx.beginPath();
+          ctx.moveTo(28, 65);
+          ctx.lineTo(64, 65);
+          ctx.stroke(); // 绘制线条
+        } else {
+          // canvas-unsupported code here
+        }
+      }
+    </script>
+  </body>
+</html>

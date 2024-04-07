@@ -1,5 +1,7 @@
 # 日常记录
 
+[2024.03.22 使用 canvas 制作 icon](./canvas-icon.md)
+
 [2024.03.22 vscode 扩展开发指南](./vscode-extension.md)
 
 [2024.03.20 vite 插件开发指南](./vite-plugin.md)

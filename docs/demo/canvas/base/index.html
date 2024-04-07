@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas 基础用法</title>
+    <style type="text/css">
+      canvas {
+        /* border: 1px solid black; */
+      }
+    </style>
+  </head>
+  <body onload="draw()">
+    <canvas id="tutorial" width="80" height="80">canvas</canvas>
+    <script>
+      function draw() {
+        console.log("draw");
+        var canvas = document.getElementById("tutorial");
+        var ctx = canvas.getContext("2d");
+        if (canvas.getContext) {
+          console.log("true");
+          var ctx = canvas.getContext("2d");
+
+          // ctx.fillStyle = "rgb(200,0,0)";
+          // ctx.fillRect(10, 10, 55, 50);
+
+          // ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+          // ctx.fillRect(30, 30, 55, 50);
+
+          // ctx.fillRect(25, 25, 100, 100); // 绘制矩形： 从x，y坐标（25,25）处，画一个宽高100的矩形
+          // ctx.clearRect(45, 45, 60, 60); // 擦除矩形：从 坐标（45，45）处，清除宽高60的矩形，这部分内容为透明，作用于前面绘制的图层
+          // ctx.strokeRect(50, 50, 50, 50);
+
+          ctx.beginPath();
+          ctx.moveTo(0, 50);
+          ctx.lineTo(50, 100);
+          ctx.lineTo(50, 0);
+          ctx.fill();
+        } else {
+          // canvas-unsupported code here
+        }
+      }
+    </script>
+  </body>
+</html>
