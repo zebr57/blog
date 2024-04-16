@@ -27,7 +27,8 @@ export default defineConfig({
           { text: "Node", link: "/frontend/node/" },
           { text: "工具函数库", link: "/frontend/utils-lib/" },
           { text: "命令行工具", link: "/frontend/zebr-cli/" },
-          { text: "Kopi ", link: "/frontend/kopi-crx/" }
+          { text: "Kopi", link: "/frontend/kopi-crx/" },
+          { text: "Tab Quick Group", link: "/frontend/tab-quick-group-crx/index.md" }
         ]
       }
     ],
@@ -84,7 +85,8 @@ export default defineConfig({
             { text: "node 命令行工具", link: "/frontend/zebr-cli/index.md" },
             { text: "Js 函数工具库", link: "/frontend/utils-lib/index.md" },
             { text: "标签管理器", link: "/frontend/kopi-crx/index.md" },
-            { text: "Kopi 文本复制", link: "/frontend/kopi-crx/index.md" }
+            { text: "Kopi 文本复制", link: "/frontend/kopi-crx/index.md" },
+            { text: "Tab Quick Group 标签快速分组", link: "/frontend/tab-quick-group-crx/index.md" }
           ]
         },
         {

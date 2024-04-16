@@ -86,7 +86,8 @@ sidebar: false
 - [zebr-vue3-ts-template](https://github.com/zebr57/zebr-vue3-ts-template) vue3+ts 项目模板
 - [zebr-react-template](https://github.com/zebr57/zebr-react-template) react 项目模板
 - [zebr-crx-temlapte](https://github.com/zebr57/zebr-crx-temlapte) chrome extension 项目模版
-- [tab-manager-crx`](https://github.com/zebr57/tabs-manager-crx) chrome extension 标签管理工具
+- [tab-quick-group-crx](https://github.com/zebr57/tabs-manager-crx) Tab Quick Group 标签快速分组扩展
+- [kopi-crx](https://github.com/zebr57/kopi-crx) Kopi 文本复制扩展
 
 ## 素质能力
 

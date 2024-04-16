@@ -22,4 +22,12 @@ features:
   - title: ⚙️ zebr-cli
     details: 前端脚手架命令行工具，帮助你快速创建项目、快速打开并启动项目、一行命令自动化提交代码等功能
     link: /frontend/zebr-cli/index.md
+  - title: 📌 Kopi
+    # icon:
+    #   src: /posts/images/kopi-icon-04.png
+    details: 文本复制扩展，一键解除页面禁止文本复制的限制
+    link: /frontend/kopi-crx/index.md
+  - title: 📌 Tab Quick Group
+    details: 标签快速分组扩展，让你的标签栏排序整洁、方便查找
+    link: /frontend/tab-quick-group-crx/index.md
 ---
