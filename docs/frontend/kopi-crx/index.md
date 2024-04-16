@@ -15,8 +15,8 @@ sidebar: false
 
 可控制开关，快捷操作：
 
-- Window: `Alt+Q`
-- Mac: `⌥+Q`
+- Window: `Alt+K`
+- Mac: `⌥+K`
 
 ## 效果演示
 
