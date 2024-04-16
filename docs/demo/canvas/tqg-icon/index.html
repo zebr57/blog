@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas tqg</title>
+    <style type="text/css">
+      canvas {
+        /* border: 1px solid black; */
+      }
+    </style>
+  </head>
+  <body onload="draw()">
+    <canvas id="tutorial" width="128" height="128">canvas</canvas>
+    <script>
+      function draw() {
+        let canvas = document.getElementById("tutorial");
+        let ctx = canvas.getContext("2d");
+        if (canvas.getContext) {
+          // let ctx = canvas.getContext("2d");
+          // 绘制圆角矩形
+          roundedRect(ctx, 0, 10, 128, 80, 8);
+          roundedRect(ctx, 0, 102, 128, 16, 4);
+          // 绘制文字
+          // ctx.fillStyle = "#fff";
+          // ctx.font = "48px Helvetica";
+          // ctx.fillText("TQG", 12, 66);
+        } else {
+          // canvas-unsupported code here
+        }
+      }
+      // 绘制圆角矩形
+      function roundedRect(ctx, x, y, width, height, radius) {
+        ctx.fillStyle = "rgb(141, 190, 96)";
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.arcTo(x + width, y, x + width, y + radius, radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+        ctx.lineTo(x + radius, y + height);
+        ctx.arcTo(x, y + height, x, y + height - radius, radius);
+        ctx.lineTo(x, y + radius);
+        ctx.arcTo(x, y, x + radius, y, radius);
+        ctx.closePath();
+        ctx.fill();
+        // ctx.stroke();
+      }
+    </script>
+  </body>
+</html>
