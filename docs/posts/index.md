@@ -1,5 +1,7 @@
 # 日常记录
 
+[2024.04.23 chrome 扩展发布](./crx-publish.md)
+
 [2024.03.22 使用 canvas 制作 icon](./canvas-icon.md)
 
 [2024.03.22 vscode 扩展开发指南](./vscode-extension.md)

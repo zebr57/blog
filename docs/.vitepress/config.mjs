@@ -93,7 +93,8 @@ export default defineConfig({
           text: "发布",
           items: [
             { text: "npm 发包", link: "/posts/npm-publish.md" },
-            { text: "vitepress+gitee发布个人站点", link: "/posts/vitepress.md" }
+            { text: "vitepress+gitee发布个人站点", link: "/posts/vitepress.md" },
+            { text: "chrome 扩展发布", link: "/posts/crx-publish.md" }
           ]
         },
         {
