@@ -21,6 +21,11 @@ nextPage: false
 - Window: `Alt`
 - Mac: `⌥`
 
+## 下载安装
+
+[chrome 应用商店](https://chromewebstore.google.com/detail/jcdjkkkngigioljkkbbbmnegegamhcjp/privacy)
+[github](https://github.com/zebr57/tabs-manager-crx/tree/master/dist)
+
 ## 效果演示
 
 ### 自动排序/分组

@@ -18,6 +18,11 @@ sidebar: false
 - Window: `Alt+K`
 - Mac: `⌥+K`
 
+## 下载安装
+
+[chrome 应用商店](https://chromewebstore.google.com/detail/kopi-%E6%96%87%E6%9C%AC%E5%A4%8D%E5%88%B6/bhbpbapbckemocbiclniepheiglhckca?hl=zh-CN&utm_source=ext_sidebar)
+[github](https://github.com/zebr57/kopi-crx)
+
 ## 效果演示
 
 当我们没有登录 csdn 账号时，禁止选中内容、复制时会弹登录窗口，并且复制不成功，打开 Kopi，即可自由复制！
