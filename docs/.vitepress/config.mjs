@@ -121,12 +121,16 @@ export default defineConfig({
         }
       ],
       "/frontend/": [
-        // {
-        //   text: "Vue",
-        //   items: [{ text: "What is Vue?", link: "/frontend/vue/" }],
-        //   collapsible: true,
-        //   collapsed: true
-        // },
+        {
+          text: "Vue",
+          items: [
+            { text: "ref和reactive", link: "/frontend/vue/ref-reactive.md" },
+            { text: "vue 性能优化", link: "/frontend/vue/performance.md" },
+            { text: "vue2和vue3的区别", link: "/frontend/vue/version-diff.md" }
+          ],
+          collapsible: true,
+          collapsed: true
+        },
         {
           text: "React",
           items: [{ text: "What is React?", link: "/frontend/react/" }],
