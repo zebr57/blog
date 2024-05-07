@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
   // 应用级配置选项
-  base: "/blog-vitepress/",
+  base: "/blog/",
   lastUpdated: true,
   lang: "en-US",
   title: "LinQiang.Shen",
