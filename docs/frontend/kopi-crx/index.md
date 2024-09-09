@@ -12,6 +12,8 @@ sidebar: false
 - 去除复制携带的小尾巴
 - 去除 csdn 登录弹窗限制
 - 免登录一键复制 csdn 代码块内容
+- 去除 掘金 登录弹窗限制
+- 免登录一键复制 掘金 代码块内容
 
 可控制开关，快捷操作：
 
@@ -34,3 +36,7 @@ sidebar: false
 ![携带小尾巴](./images/juejin-default-copy.jpg)
 
 ![不携带小尾巴](./images/juejin-kopi-copy.jpg)
+
+而且点击代码块的”复制代码“按钮，不再受登录的限制！
+
+![一键复制代码](./images/juejin-kopi-no-login.jpg)
