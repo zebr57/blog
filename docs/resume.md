@@ -16,7 +16,7 @@ sidebar: false
 
 🏫 广州华夏职业学院 | 软件技术 | 大专 | 2016-2019
 
-❤️ 游泳 🏊🏻、羽毛球 🏸、摄影 📷
+❤️ 游泳健身 🏊🏻、羽毛球 🏸、摄影 📷
 
 🏠 [我的博客](https://shen-linqiang.gitee.io/blog-vitepress/) | [github-zebr57](https://github.com/zebr57)
 
@@ -31,6 +31,7 @@ sidebar: false
 - 掌握前端流行框架 Vue2/3、React
 - 掌握 [Chrome 扩展开发](https://chromewebstore.google.com/)
 - 掌握 Echarts 定制样式风格化图表库
+- 掌握[米家APP插件开发](https://iot.mi.com/v2/new/doc/plugin/quickstart/quick-start)
 
 ### Vue & React (掌握)
 
@@ -55,6 +56,14 @@ sidebar: false
 - 掌握 uniapp 夸端开发
 
 ## 工作经历
+
+### 广嵌物联网科技（广州）股份有限公司 | 前端开发 | 2024.05 - 至今
+
+在研发部负责各个品类米家APP插件、蓝牙小程序 等项目的前端开发工作
+
+- 负责前端技术难点攻克
+- 根据公司项目需求，设计项目结构
+- 为团队开发一款提高日常效率的米家后台浏览器插件（MIOT Tools）
 
 ### 广东数源智汇科技有限公司 | 前端开发 | 2022.05 - 2023.08
 

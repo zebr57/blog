@@ -12,6 +12,8 @@
 
 平时 😍 游泳 🏊🏻、羽毛球 🏸、摄影 📷，
 
-如果你也喜欢，咱们一块玩！
+近期开始健身~
+
+如果你也同样感兴趣，欢迎交流！
 
 <!-- If you also like these，welcome to call me together！！ -->
