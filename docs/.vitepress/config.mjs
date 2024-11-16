@@ -76,6 +76,10 @@ export default defineConfig({
             {
               text: "Vscode extension",
               link: "/posts/vscode-extension.md"
+            },
+            {
+              text: "米家扩展程序",
+              link: "/posts/miApp-extension.md"
             }
           ]
         },

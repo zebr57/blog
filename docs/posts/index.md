@@ -1,4 +1,5 @@
 # 日常记录
+[2024.11.16 米家扩展程序开发](./miApp-extension.md)
 
 [2024.04.23 chrome 扩展发布](./crx-publish.md)
 
